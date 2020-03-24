@@ -1,5 +1,6 @@
 ## Get Started
 This is grafana dashboard to display realtime data for covid-19
+[screenshot]: https://i.ibb.co/ZHRVyKv/Status-By-Country-Grafana.png
 ### Prerequirements
 You need to have docker & docker-compose install on development machine
 
