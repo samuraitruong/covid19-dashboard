@@ -1,0 +1,60 @@
+version: "3.7"
+services:
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+      - "2003:2003"
+    volumes:
+      - "./data/influxdb:/var/lib/influxdb"
+      - "./data/influxdb.conf:/etc/influxdb/influxdb.conf:ro"
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+  chronograf:
+    image: chronograf
+    container_name: chronograf
+    ports:
+      - 8888:8888
+    volumes:
+      - chronograf-data:/var/lib/chronograf
+    environment:
+      INFLUXDB_URL: "http://influxdb:8086"
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 4000:3000
+    volumes:
+      - "./data/grafana/data:/var/lib/grafana"
+      - "./data/grafana/dashboards:/var/lib/grafana/dashboards"
+      - "./data/grafana/provisioning:/etc/grafana/provisioning"
+    restart: always
+    environment:
+      ADMIN_USER: "admin"
+      ADMIN_PASSWORD: "admin"
+      ALLOW_SIGNUP: "false"
+    links:
+      - influxdb
+  job_runner:
+    build: .
+    container_name: job_runner
+    volumes:
+      - ./:/usr/app
+    entrypoint:
+      - npm
+      - run
+      - dev
+    environment:
+      SCHEDULE_CRON: "* */1 * * *"
+      INFLUXDB_HOST: "influxdb"
+    depends_on:
+      - influxdb
+    restart: always
+volumes:
+  chronograf-data:
