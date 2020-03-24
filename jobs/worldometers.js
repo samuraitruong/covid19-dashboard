@@ -15,8 +15,12 @@ const getData = async () => {
   const rows = $("#main_table_countries_today tbody tr").toArray();
   const data = rows.map((tr) => {
     const td = $("td", tr).toArray();
+    let Country = $(td[0]).text().trim();
+    // Make data same with other source 
+    if (Country === "USA") Country = "US";
+
     return {
-      Country: $(td[0]).text().trim(),
+      Country,
       Confirmed: toNumber($(td[1]).text()),
       NewConfirmed: toNumber($(td[2]).text()),
       Deaths: toNumber($(td[3]).text()),
