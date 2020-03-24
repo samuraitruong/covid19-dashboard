@@ -1,50 +1,40 @@
-const moment = require("moment");
 const schedule = require('node-schedule');
 const CSSEGISandDataJob = require("./jobs/CSSEGISandData");
+const worldometerJob = require("./jobs/worldometers");
+const client = require("./client");
 
 (async () => {
-  const Influx = require('influx')
-  // You can generate a Token from the "Tokens Tab" in the UI
-  const {
-    getCountriesData
-  } = require("./data")
   if (process.env.NODE_ENV !== "production") {
     require('dotenv').config({});
   }
 
-  const client = new Influx.InfluxDB({
-    database: 'covid19',
-    host: process.env.INFLUXDB_HOST || "localhost",
-    port: process.env.INFLUXDB_PORT || 8086,
-    username: 'api',
-    password: '123456',
-    schema: [{
-      measurement: 'ByCountry',
-      fields: {
-        Confirmed: Influx.FieldType.INTEGER,
-        Deaths: Influx.FieldType.INTEGER,
-        Recovered: Influx.FieldType.INTEGER,
-        Date: Influx.FieldType.STRING,
-        Country: Influx.FieldType.STRING,
-      },
-      tags: [
-        'Country'
-      ]
-    }]
-  });
+  const sleep = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout || 5000));
+  do {
+    try {
+      console.log("Verify InfluxDB status");
+      const dbNames = await client.getDatabaseNames();
+      console.log("InfluxDB is ready, database names: ", dbNames)
+      break;
+    } catch (err) {
+      console.warn("InfluxDB not ready , retrying after 5s");
+      await sleep(5000);
+    }
+  } while (true);
 
   await CSSEGISandDataJob(client);
-
-  const job = schedule.scheduleJob(process.env.SCHEDULE_CRON || '* */1 * * *',
+  await await worldometerJob(client);
+  const scheduleCron = process.env.SCHEDULE_CRON || '* */1 * * *';
+  console.log("Setup job schedule running by cron: ", scheduleCron)
+  const job = schedule.scheduleJob(scheduleCron,
     async () => {
       try {
         console.log('Schedule running ....');
         await CSSEGISandDataJob(client);
+
+        // run worldometer  job  to get lastest data
+        await worldometerJob(client);
       } catch (err) {
         console.log("Job runner error", err)
       }
-
     });
-
-
 })();

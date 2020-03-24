@@ -1,0 +1,1 @@
+docker-compose down && docker-compose up -d && docker-compose logs -f grafana job_runner influxdb chronograf

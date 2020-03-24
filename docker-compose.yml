@@ -22,7 +22,7 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - chronograf-data:/var/lib/chronograf
+      - ./data/chronograf:/var/lib/chronograf
     environment:
       INFLUXDB_URL: "http://influxdb:8086"
   grafana:
@@ -56,5 +56,3 @@ services:
     depends_on:
       - influxdb
     restart: always
-volumes:
-  chronograf-data:

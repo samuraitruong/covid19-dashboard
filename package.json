@@ -5,14 +5,18 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
+  "nodemonConfig": {
+    "ignore": ["data/*", "docs/*"],
+    "delay": "2500"
+  },
   "dependencies": {
     "@influxdata/influxdb-client": "^1.1.0",
     "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
     "csv-parser": "^2.3.2",
     "csvparser": "^0.1.4",
     "csvtojson": "^2.0.10",
