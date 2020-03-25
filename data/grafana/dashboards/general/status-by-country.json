@@ -1,6 +1,7 @@
 {
   "annotations": {
     "list": [{
+      "$$hashKey": "object:451",
       "builtIn": 1,
       "datasource": "-- Grafana --",
       "enable": true,
@@ -13,8 +14,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 7,
-  "iteration": 1585041103028,
+  "iteration": 1585118068390,
   "links": [],
   "panels": [{
       "aliasColors": {},
@@ -227,7 +227,7 @@
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
+        "w": 4,
         "x": 16,
         "y": 0
       },
@@ -308,11 +308,134 @@
       "type": "stat"
     },
     {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "InfluxDB",
+      "decimals": null,
+      "description": "",
+      "fontSize": "80%",
+      "format": "short",
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 12,
+      "interval": "",
+      "legend": {
+        "percentage": true,
+        "show": true,
+        "sort": "max",
+        "sortDesc": true,
+        "values": false
+      },
+      "legendType": "Under graph",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "pie",
+      "strokeWidth": 1,
+      "targets": [{
+          "alias": "Recovered",
+          "groupBy": [{
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ByCountry",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [{
+                "params": [
+                  "Recovered"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": [{
+            "key": "Country",
+            "operator": "=~",
+            "value": "/^$country_name$/"
+          }]
+        },
+        {
+          "alias": "Deaths",
+          "groupBy": [{
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ByCountry",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT max(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [{
+                "params": [
+                  "Deaths"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": [{
+            "key": "Country",
+            "operator": "=~",
+            "value": "/^$country_name$/"
+          }]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Recovered vs Deaths",
+      "type": "grafana-piechart-panel",
+      "valueName": "max"
+    },
+    {
       "cacheTimeout": null,
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
+        "w": 4,
         "x": 16,
         "y": 2
       },
@@ -400,7 +523,7 @@
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
+        "w": 4,
         "x": 16,
         "y": 4
       },
@@ -693,8 +816,9 @@
     "list": [{
       "allValue": null,
       "current": {
-        "text": "Afghanistan",
-        "value": "Afghanistan"
+        "selected": true,
+        "text": "China",
+        "value": "China"
       },
       "datasource": "InfluxDB",
       "definition": "SELECT distinct(\"Country\")  FROM \"covid19\".\"autogen\".\"ByCountry\"",
@@ -741,5 +865,5 @@
   "variables": {
     "list": []
   },
-  "version": 13
+  "version": 1
 }

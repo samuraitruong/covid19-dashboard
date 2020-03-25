@@ -19,3 +19,7 @@ docker-compose up --remove-orphans -d --build
 echo "Set IP forward rule to map port 80 to 4000 - grafana"
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 4000
 
+echo "Install grafana plugins"
+docker exec grafana sh -c "grafana-cli plugins install grafana-piechart-panel"
+
+docker restart grafana
