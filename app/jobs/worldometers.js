@@ -18,6 +18,7 @@ const getData = async () => {
     let Country = $(td[0]).text().trim();
     // Make data same with other source 
     if (Country === "USA") Country = "US";
+    if (Country === "S. Korea") Country = "Korea, South";
 
     return {
       Country,
