@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # this is command that store on VM that will pull master branch and restart docker
 
 cd /home/covid19-dashboard
