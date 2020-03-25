@@ -16,6 +16,6 @@ before_install:
   - ssh-add ./travis_deploy_rsa
 deploy:
   provider: script
-  script: cat deploy.sh | ssh -i ./travis_deploy_rsa root@$SERVER_IP 'bash -'
+  script: cat ./deploy.sh | ssh -i ./travis_deploy_rsa root@$SERVER_IP 'bash -'
   on:
     branch: master
