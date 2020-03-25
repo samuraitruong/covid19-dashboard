@@ -102,7 +102,6 @@ const worldometerJob = async (client) => {
     const sorted = lastestData.data.sort((a, b) => {
       return a.Confirmed > b.Confirmed
     });
-    console.log("sorted", sorted)
     await writeRank(client, sorted);
 
   } catch (err) {

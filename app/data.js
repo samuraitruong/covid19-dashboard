@@ -30,6 +30,16 @@ const getCountriesData = async () => {
   } = await axios.get(url);
   return await parseCSV(data);
 }
+
+const getCountryCombinedData = async () => {
+  url = "https://raw.githubusercontent.com/datasets/covid-19/master/data/https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv";
+  let {
+    data
+  } = await axios.get(url);
+  data = data.replace("Country/Region,Province/State", "Country,State_Province")
+  return await parseCSV(data);
+}
+
 const getGlobalData = async () => {
   url = "https://raw.githubusercontent.com/datasets/covid-19/master/data/worldwide-aggregated.csv";
   const {
@@ -40,7 +50,8 @@ const getGlobalData = async () => {
 
 module.exports = {
   getCountriesData,
-  getGlobalData
+  getGlobalData,
+  getCountryCombinedData
 }
 // test
 
