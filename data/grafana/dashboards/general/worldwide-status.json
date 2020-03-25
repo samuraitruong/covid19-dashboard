@@ -365,7 +365,7 @@
         "measurement": "ByCountry",
         "orderByTime": "ASC",
         "policy": "autogen",
-        "query": "SELECT mean(\"Recovered\") FROM \"autogen\".\"WorldWide\" WHERE (\"Country\" = 'Global') AND $timeFilter ",
+        "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"WorldWide\" WHERE (\"Country\" = 'Global') AND $timeFilter ",
         "rawQuery": true,
         "refId": "A",
         "resultFormat": "time_series",
@@ -644,7 +644,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "Dailly confirmed cases",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -711,5 +711,5 @@
   "variables": {
     "list": []
   },
-  "version": 12
+  "version": 2
 }
