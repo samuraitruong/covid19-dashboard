@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 # Refresh content on server using git pull command.
 
 cd /home/covid19-dashboard
