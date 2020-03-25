@@ -32,6 +32,7 @@ services:
       - 4000:3000
     volumes:
       - "./data/grafana/data:/var/lib/grafana"
+      - "./data/grafana.ini:/etc/grafana/grafana.ini"
       - "./data/grafana/dashboards:/var/lib/grafana/dashboards"
       - "./data/grafana/provisioning:/etc/grafana/provisioning"
     restart: always
