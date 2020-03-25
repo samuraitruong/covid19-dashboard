@@ -31,7 +31,7 @@ const getData = async () => {
     }
   })
   return {
-    data,
+    data: data.filter(x => x.Country !== "Total:"),
     timestamp
   }
 }
