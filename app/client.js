@@ -7,17 +7,28 @@ const client = new Influx.InfluxDB({
   username: 'api',
   password: '123456',
   schema: [{
-    measurement: 'ByCountry',
-    fields: {
-      Confirmed: Influx.FieldType.INTEGER,
-      Deaths: Influx.FieldType.INTEGER,
-      Recovered: Influx.FieldType.INTEGER,
-      Date: Influx.FieldType.STRING,
-      Country: Influx.FieldType.STRING,
+      measurement: 'ByCountry',
+      fields: {
+        Confirmed: Influx.FieldType.INTEGER,
+        Deaths: Influx.FieldType.INTEGER,
+        Recovered: Influx.FieldType.INTEGER,
+        Date: Influx.FieldType.STRING,
+        Country: Influx.FieldType.STRING,
+      },
+      tags: [
+        'Country'
+      ]
     },
-    tags: [
-      'Country'
-    ]
-  }]
+    {
+      measurement: 'Rank',
+      fields: {
+        Confirmed: Influx.FieldType.INTEGER,
+        Country: Influx.FieldType.STRING
+      },
+      tags: [
+        'Rank'
+      ]
+    }
+  ]
 });
 module.exports = client;

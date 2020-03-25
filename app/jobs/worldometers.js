@@ -62,13 +62,48 @@ const writeDataToClient = async (client, data, measurement, timestamp) => {
   }
 }
 
+const writeRank = async (client, data) => {
+  await client.dropMeasurement("Rank");
+
+  console.log("Writing worldometer rank data to InfluxDB")
+  const points = [];
+  data.forEach((item, index) => {
+    points.push({
+      measurement: "Rank",
+      tags: {
+        Rank: index + 1
+      },
+      fields: {
+        Country: item.Country,
+        Confirmed: item.Confirmed
+      },
+    });
+  });
+
+  try {
+    await client.writePoints(points);
+    console.log('worldometer successful write rank data ...');
+  } catch (err) {
+    console.log("worldometer Error writing rank data to influxDB ", err);
+  }
+}
+
+
 
 const worldometerJob = async (client) => {
   try {
     console.log("worldometerJob running...")
     const lastestData = await getData();
     await writeDataToClient(client, lastestData.data, "ByCountry", lastestData.timestamp)
-    console.log("worldometerJob  finished")
+    console.log("worldometerJob  finished");
+
+
+    const sorted = lastestData.data.sort((a, b) => {
+      return a.Confirmed > b.Confirmed
+    });
+    console.log("sorted", sorted)
+    await writeRank(client, sorted);
+
   } catch (err) {
     console.log("worldometerJob error", err)
   }

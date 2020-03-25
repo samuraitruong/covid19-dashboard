@@ -1,0 +1,265 @@
+{
+  "annotations": {
+    "list": [{
+      "builtIn": 1,
+      "datasource": "-- Grafana --",
+      "enable": true,
+      "hide": true,
+      "iconColor": "rgba(0, 211, 255, 1)",
+      "name": "Annotations & Alerts",
+      "type": "dashboard"
+    }]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 26,
+  "links": [],
+  "panels": [{
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "InfluxDB",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 18,
+        "w": 17,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "interval": "",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [{
+        "alias": "$tag_Country",
+        "groupBy": [{
+            "params": [
+              "1h"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "linear"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "ByCountry",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "query": "SELECT mean(\"Confirmed\") FROM \"ByCountry\" WHERE $timeFilter GROUP BY Country, time(12h) fill(linear)",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [],
+              "type": "mean"
+            }
+          ]
+        ],
+        "tags": [{
+            "key": "Country",
+            "operator": "=",
+            "value": "US"
+          },
+          {
+            "condition": "OR",
+            "key": "Country",
+            "operator": "=",
+            "value": "China"
+          },
+          {
+            "condition": "OR",
+            "key": "Country",
+            "operator": "=",
+            "value": "Italy"
+          }
+        ]
+      }],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Historical data",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [{
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [],
+      "datasource": null,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 18,
+        "w": 7,
+        "x": 17,
+        "y": 0
+      },
+      "id": 4,
+      "pageSize": 25,
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": true
+      },
+      "styles": [{
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "",
+          "align": "right",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [{
+        "groupBy": [{
+            "params": [
+              "12h"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "Rank",
+        "orderByTime": "ASC",
+        "policy": "autogen",
+        "query": "SELECT Country, \"Confirmed\" FROM \"autogen\".\"Rank\"",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "table",
+        "select": [
+          [{
+            "params": [
+              "Confirmed"
+            ],
+            "type": "field"
+          }]
+        ],
+        "tags": [{
+          "key": "Rank",
+          "operator": "=",
+          "value": "1"
+        }]
+      }],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Data list",
+      "transform": "table",
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "2020-01-20T13:00:00.000Z",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Top N Country",
+  "uid": "WvcKNFrZk",
+  "variables": {
+    "list": []
+  },
+  "version": 5
+}

@@ -39,6 +39,7 @@ const CSSEGISandDataJob = async (client) => {
     await client.dropMeasurement("WorldWide");
     const globalData = await getGlobalData();
     await writeDataToClient(client, globalData, "WorldWide", "Global");
+
   } catch (err) {
     console.log("CSSEGISandDataJob Error occured: ", err)
   }
