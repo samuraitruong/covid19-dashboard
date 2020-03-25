@@ -45,7 +45,8 @@ services:
     build: .
     container_name: job_runner
     volumes:
-      - ./:/usr/app
+      - ./app:/usr/app
+      - /usr/app/node_modules/
     entrypoint:
       - npm
       - run
