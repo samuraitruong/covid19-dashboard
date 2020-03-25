@@ -10,5 +10,5 @@ git fetch --all
 git reset --hard origin/master
 
 git pull
-
+chmod -R 777 ./data
 docker-compose down && docker-compose up --remove-orphans -d --build
