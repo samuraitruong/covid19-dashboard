@@ -51,7 +51,7 @@ services:
       - run
       - dev
     environment:
-      SCHEDULE_CRON: "* */1 * * *"
+      SCHEDULE_CRON: "* */5 * * *"
       INFLUXDB_HOST: "influxdb"
     depends_on:
       - influxdb
