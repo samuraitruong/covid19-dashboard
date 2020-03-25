@@ -1,12 +1,7 @@
 language: node_js
 node_js:
   - node
-env:
-  - MY_VAR=EverythignIsAwesome
-install:
-  - npm install
-script:
-  - echo "Nothing to run"
+
 before_install:
   - openssl aes-256-cbc -K $encrypted_eb6eb26fba1d_key -iv $encrypted_eb6eb26fba1d_iv
     -in travis_deploy_rsa.enc -out travis_deploy_rsa -d
@@ -14,8 +9,7 @@ before_install:
   - chmod 600 ./travis_deploy_rsa
   - echo -e "Host $SERVER_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   - ssh-add ./travis_deploy_rsa
-deploy:
-  provider: script
-  script: cat ./deploy.sh | ssh -i ./travis_deploy_rsa root@$SERVER_IP 'bash -'
-  on:
-    branch: master
+install:
+  - npm install
+script:
+  - cat ./deploy.sh | ssh -i ./travis_deploy_rsa root@$SERVER_IP 'bash -'
