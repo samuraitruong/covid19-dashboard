@@ -224,7 +224,7 @@
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
+        "w": 3,
         "x": 16,
         "y": 0
       },
@@ -305,11 +305,122 @@
       "type": "stat"
     },
     {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": null,
+      "decimals": null,
+      "fontSize": "70%",
+      "format": "short",
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 19,
+        "y": 0
+      },
+      "id": 12,
+      "interval": null,
+      "legend": {
+        "header": "",
+        "percentage": true,
+        "show": true,
+        "values": false
+      },
+      "legendType": "Under graph",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "pie",
+      "strokeWidth": 1,
+      "targets": [{
+          "alias": "Recovered",
+          "groupBy": [{
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "WorldWide",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"WorldWide\" WHERE $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [{
+                "params": [
+                  "Recovered"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": "Deaths",
+          "groupBy": [{
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "WorldWide",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [{
+                "params": [
+                  "Deaths"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Recovered vs Deaths",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
       "cacheTimeout": null,
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
+        "w": 3,
         "x": 16,
         "y": 2
       },
@@ -392,7 +503,7 @@
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
+        "w": 3,
         "x": 16,
         "y": 4
       },
@@ -711,5 +822,5 @@
   "variables": {
     "list": []
   },
-  "version": 2
+  "version": 1
 }
