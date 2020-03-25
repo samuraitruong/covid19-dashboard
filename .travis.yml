@@ -6,7 +6,7 @@ env:
 install:
   - npm install
 script:
-  - ssh -i travis_deploy_rsa root@$SERVER_NAME ls
+  - ssh -i travis_deploy_rsa root@$SERVER_IP ls
 before_install:
   - openssl aes-256-cbc -K $encrypted_eb6eb26fba1d_key -iv $encrypted_eb6eb26fba1d_iv
     -in travis_deploy_rsa.enc -out travis_deploy_rsa -d
