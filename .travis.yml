@@ -6,7 +6,11 @@ env:
 install:
   - npm install
 script:
-  - ssh -i travis_deploy_rsa root@$SERVER_IP ls
+  - ssh -i ./travis_deploy_rsa root@$SERVER_IP ls
 before_install:
   - openssl aes-256-cbc -K $encrypted_eb6eb26fba1d_key -iv $encrypted_eb6eb26fba1d_iv
     -in travis_deploy_rsa.enc -out travis_deploy_rsa -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 ./deploy_key
+  - echo -e "Host $SERVER_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - ssh-add ./travis_deploy_rsa
