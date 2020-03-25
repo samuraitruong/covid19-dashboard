@@ -3,7 +3,7 @@
 cd /home/covid19-dashboard
 ls
 git status
-
+git fetch --all
 git stash
 git reset --hard origin master
 
