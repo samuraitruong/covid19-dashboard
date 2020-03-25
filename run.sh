@@ -6,3 +6,6 @@
 #service iptables restart
 
 docker-compose down && docker-compose up --remove-orphans -d --build && docker-compose logs -f grafana job_runner influxdb chronograf
+
+
+# deploy to google cloud machine
