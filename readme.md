@@ -2,6 +2,8 @@
 This is grafana dashboard to display realtime data for covid-19
 
 [screenshot]: https://i.ibb.co/ZHRVyKv/Status-By-Country-Grafana.png "screenshot"
+### Dashboard list
+
 ### Prerequirements
 You need to have docker & docker-compose install on development machine
 
@@ -61,3 +63,7 @@ Here is the step to create new dashboard :
 - Get json model of that dashboard (use export/ or json model in setting panel)
 - Save that json file into folder ./data/grafana/{folder}/you-dashboad.json
 
+
+## CI
+
+https://github.com/dwyl/learn-travis/blob/master/encrypted-ssh-keys-deployment.md
