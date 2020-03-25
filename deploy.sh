@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# this is command that store on VM that will pull master branch and restart docker
+# Refresh content on server using git pull command.
 
 cd /home/covid19-dashboard
 chmod -R 777 ./data
@@ -12,3 +12,6 @@ git reset --hard origin/master
 git pull
 chmod -R 777 ./data
 docker-compose down && docker-compose up --remove-orphans -d --build
+
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 4000
+
