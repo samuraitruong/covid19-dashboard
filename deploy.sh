@@ -4,6 +4,7 @@ cd /home/covid19-dashboard
 ls
 git status
 
+git stash
 git reset --hard origin master
 
 git pull
