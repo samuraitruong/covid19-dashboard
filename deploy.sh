@@ -11,7 +11,8 @@ git reset --hard origin/master
 
 git pull
 chmod -R 777 ./data
-docker-compose down && docker-compose up --remove-orphans -d --build
+docker-compose down
+docker-compose up --remove-orphans -d --build
 
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 4000
 
