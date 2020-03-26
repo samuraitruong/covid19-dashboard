@@ -13,8 +13,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 31,
-  "iteration": 1585179206183,
+  "id": 32,
+  "iteration": 1585182069448,
   "links": [],
   "panels": [{
       "aliasColors": {},
@@ -775,9 +775,9 @@
   },
   "timezone": "utc",
   "title": "Australia By State",
-  "uid": "COofTc9Wz",
+  "uid": "X1CYucrZz",
   "variables": {
     "list": []
   },
-  "version": 9
+  "version": 1
 }
