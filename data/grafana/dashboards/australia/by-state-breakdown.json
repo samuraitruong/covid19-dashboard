@@ -14,7 +14,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 32,
-  "iteration": 1585182069448,
+  "iteration": 1585182069484,
   "links": [],
   "panels": [{
       "aliasColors": {},
@@ -27,7 +27,7 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 16,
-        "w": 16,
+        "w": 14,
         "x": 0,
         "y": 0
       },
@@ -227,8 +227,8 @@
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
-        "x": 16,
+        "w": 3,
+        "x": 14,
         "y": 0
       },
       "id": 4,
@@ -307,12 +307,96 @@
       "type": "stat"
     },
     {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": null,
+      "fontSize": "80%",
+      "format": "short",
+      "gridPos": {
+        "h": 6,
+        "w": 7,
+        "x": 17,
+        "y": 0
+      },
+      "id": 12,
+      "interval": null,
+      "legend": {
+        "percentage": true,
+        "percentageDecimals": 1,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "values": true
+      },
+      "legendType": "Under graph",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "pie",
+      "strokeWidth": 1,
+      "targets": [{
+        "alias": "$tag_State",
+        "groupBy": [{
+            "params": [
+              "$__interval"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "State"
+            ],
+            "type": "tag"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "Australia",
+        "orderByTime": "ASC",
+        "policy": "autogen",
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [],
+              "type": "mean"
+            }
+          ]
+        ],
+        "tags": [{
+          "key": "State",
+          "operator": "!=",
+          "value": "na"
+        }]
+      }],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Distributed By State",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
       "cacheTimeout": null,
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
-        "x": 16,
+        "w": 3,
+        "x": 14,
         "y": 2
       },
       "id": 6,
@@ -399,8 +483,8 @@
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
-        "x": 16,
+        "w": 3,
+        "x": 14,
         "y": 4
       },
       "id": 8,
@@ -484,8 +568,8 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 10,
-        "w": 8,
-        "x": 16,
+        "w": 10,
+        "x": 14,
         "y": 6
       },
       "hiddenSeries": false,
@@ -528,125 +612,57 @@
       "stack": false,
       "steppedLine": false,
       "targets": [{
-          "alias": "Confirmed",
-          "groupBy": [{
+        "alias": "Confirmed",
+        "groupBy": [{
+            "params": [
+              "12h"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "Australia",
+        "orderByTime": "ASC",
+        "policy": "autogen",
+        "query": "SELECT mean(\"Confirmed\") FROM \"autogen\".\"Australia\" WHERE (\"State\" = 'na') AND $timeFilter GROUP BY time(24h) fill(null)",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
               "params": [
-                "$__interval"
+                "Confirmed"
               ],
-              "type": "time"
+              "type": "field"
             },
             {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
+              "params": [],
+              "type": "mean"
             }
           ],
-          "measurement": "ByCountry",
-          "orderByTime": "ASC",
-          "policy": "autogen",
-          "query": "SELECT mean(\"Confirmed\") FROM \"autogen\".\"Cases\" WHERE (\"Country\" = 'Australia') AND $timeFilter and (State =~ /^$state$/) GROUP BY time($__interval)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
-            }],
-            [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
-            }]
-          ],
-          "tags": [{
-            "key": "Country",
-            "operator": "=",
-            "value": "Australia"
+          [{
+            "params": [
+              "Confirmed"
+            ],
+            "type": "field"
           }]
-        },
-        {
-          "alias": "Recovered",
-          "groupBy": [{
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"Recovered\") FROM \"autogen\".\"Cases\" WHERE (\"Country\" = 'Australia') AND $timeFilter and (State =~ /^$state$/) GROUP BY time($__interval)",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [{
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "Deaths",
-          "groupBy": [{
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"Deaths\") FROM \"autogen\".\"Cases\" WHERE (\"Country\" = 'Australia') AND $timeFilter and (State =~ /^$state$/) GROUP BY time($__interval)",
-          "rawQuery": true,
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [{
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
+        ],
+        "tags": [{
+          "key": "State",
+          "operator": "=",
+          "value": "na"
+        }]
+      }],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "Australia -  Dailly cases",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -691,8 +707,8 @@
       "allValue": null,
       "current": {
         "selected": true,
-        "text": "Victoria",
-        "value": "Victoria"
+        "text": "New South Wales",
+        "value": "New South Wales"
       },
       "datasource": "InfluxDB",
       "definition": "SELECT State_Province FROM autogen.Cases WHERE  Country = 'Australia'",
@@ -708,7 +724,7 @@
           "value": "Australian Capital Territory"
         },
         {
-          "selected": false,
+          "selected": true,
           "text": "New South Wales",
           "value": "New South Wales"
         },
@@ -733,7 +749,7 @@
           "value": "Tasmania"
         },
         {
-          "selected": true,
+          "selected": false,
           "text": "Victoria",
           "value": "Victoria"
         },
@@ -779,5 +795,5 @@
   "variables": {
     "list": []
   },
-  "version": 1
+  "version": 2
 }
