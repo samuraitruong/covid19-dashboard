@@ -1,6 +1,7 @@
 {
   "annotations": {
     "list": [{
+      "$$hashKey": "object:149",
       "builtIn": 1,
       "datasource": "-- Grafana --",
       "enable": true,
@@ -13,7 +14,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 28,
   "links": [],
   "panels": [{
       "circleMaxSize": 30,
@@ -81,7 +81,7 @@
         "measurement": "Cases",
         "orderByTime": "ASC",
         "policy": "autogen",
-        "query": "SELECT max(Confirmed) as Count, geohash as geohash FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country",
+        "query": "SELECT max(Confirmed) as Count, geohash as geohash FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country , geohash",
         "rawQuery": true,
         "refId": "A",
         "resultFormat": "table",
@@ -157,6 +157,7 @@
         "desc": true
       },
       "styles": [{
+          "$$hashKey": "object:844",
           "alias": "Time",
           "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -164,6 +165,7 @@
           "type": "hidden"
         },
         {
+          "$$hashKey": "object:3188",
           "alias": "Confirmed",
           "align": "auto",
           "colorMode": "value",
@@ -184,6 +186,7 @@
           "unit": "short"
         },
         {
+          "$$hashKey": "object:845",
           "alias": "",
           "align": "right",
           "colorMode": "value",
