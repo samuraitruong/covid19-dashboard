@@ -1,6 +1,7 @@
 {
   "annotations": {
     "list": [{
+      "$$hashKey": "object:149",
       "builtIn": 1,
       "datasource": "-- Grafana --",
       "enable": true,
@@ -13,94 +14,233 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 28,
   "links": [],
   "panels": [{
-    "circleMaxSize": 30,
-    "circleMinSize": 2,
-    "colors": [
-      "rgba(245, 54, 54, 0.9)",
-      "rgba(237, 129, 40, 0.89)",
-      "rgba(50, 172, 45, 0.97)"
-    ],
-    "datasource": "InfluxDB",
-    "decimals": 0,
-    "esGeoPoint": "",
-    "esLocationName": "",
-    "esMetric": "Count",
-    "gridPos": {
-      "h": 17,
-      "w": 24,
-      "x": 0,
-      "y": 0
-    },
-    "hideEmpty": false,
-    "hideZero": false,
-    "id": 2,
-    "initialZoom": 1,
-    "interval": "",
-    "locationData": "countries",
-    "mapCenter": "(0°, 0°)",
-    "mapCenterLatitude": 0,
-    "mapCenterLongitude": 0,
-    "maxDataPoints": 1,
-    "mouseWheelZoom": false,
-    "showLegend": true,
-    "stickyLabels": false,
-    "tableQueryOptions": {
-      "geohashField": "geohash",
-      "latitudeField": "latitude",
-      "longitudeField": "longitude",
-      "metricField": "metric",
-      "queryType": "geohash"
-    },
-    "targets": [{
-      "alias": "count 1",
-      "groupBy": [{
-          "params": [
-            "1h"
-          ],
-          "type": "time"
-        },
-        {
-          "params": [
-            "null"
-          ],
-          "type": "fill"
-        }
+      "circleMaxSize": 30,
+      "circleMinSize": 2,
+      "colors": [
+        "#37872D",
+        "#56A64B",
+        "#FFF899",
+        "#F2CC0C",
+        "#FF780A",
+        "#FA6400",
+        "#FF7383",
+        "#E02F44",
+        "#C4162A",
+        "#A352CC",
+        "#8F3BB8"
       ],
-      "hide": false,
-      "measurement": "Cases",
-      "orderByTime": "ASC",
-      "policy": "autogen",
-      "query": "SELECT \"Confirmed\" FROM \"autogen\".\"Cases\" WHERE $timeFilter AND   CountryCode = 'AU' GROUP BY CountryCode",
-      "rawQuery": true,
-      "refId": "A",
-      "resultFormat": "time_series",
-      "select": [
-        [{
+      "datasource": "InfluxDB",
+      "decimals": 0,
+      "esGeoPoint": "geohash",
+      "esLocationName": "Country",
+      "esMetric": "Count",
+      "gridPos": {
+        "h": 18,
+        "w": 18,
+        "x": 0,
+        "y": 0
+      },
+      "hideEmpty": true,
+      "hideZero": true,
+      "id": 2,
+      "initialZoom": "5",
+      "interval": "",
+      "locationData": "geohash",
+      "mapCenter": "Europe",
+      "mapCenterLatitude": 46,
+      "mapCenterLongitude": 14,
+      "maxDataPoints": 1,
+      "mouseWheelZoom": false,
+      "showLegend": true,
+      "stickyLabels": false,
+      "tableQueryOptions": {
+        "geohashField": "geohash",
+        "latitudeField": "latitude",
+        "longitudeField": "longitude",
+        "metricField": "metric",
+        "queryType": "geohash"
+      },
+      "targets": [{
+        "alias": "Count",
+        "groupBy": [{
             "params": [
-              "Confirmed"
+              "1d"
             ],
-            "type": "field"
+            "type": "time"
           },
           {
-            "params": [],
-            "type": "max"
+            "params": [
+              "0"
+            ],
+            "type": "fill"
+          }
+        ],
+        "hide": false,
+        "measurement": "Cases",
+        "orderByTime": "ASC",
+        "policy": "autogen",
+        "query": "SELECT max(Confirmed) as Count, geohash as geohash FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "table",
+        "select": [
+          [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [],
+              "type": "max"
+            },
+            {
+              "params": [
+                "Count"
+              ],
+              "type": "alias"
+            }
+          ],
+          [{
+              "params": [
+                "geohash"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [
+                "geohash"
+              ],
+              "type": "alias"
+            }
+          ]
+        ],
+        "tags": [{
+            "key": "geohash",
+            "operator": "!=",
+            "value": "'0'"
+          },
+          {
+            "condition": "AND",
+            "key": "Country",
+            "operator": "=",
+            "value": "Austria"
           }
         ]
+      }],
+      "thresholds": "0,50,100,1000,2500, 5000, 10000, 20000, 30000, 50000",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "View By Location ",
+      "type": "grafana-worldmap-panel",
+      "unitPlural": "",
+      "unitSingle": "",
+      "valueName": "max"
+    },
+    {
+      "columns": [],
+      "datasource": null,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 18,
+        "w": 5,
+        "x": 18,
+        "y": 0
+      },
+      "id": 4,
+      "pageSize": 25,
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": true
+      },
+      "styles": [{
+          "$$hashKey": "object:844",
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "$$hashKey": "object:3188",
+          "alias": "Confirmed",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Count",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "$$hashKey": "object:845",
+          "alias": "",
+          "align": "right",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
       ],
-      "tags": []
-    }],
-    "thresholds": "0,10",
-    "timeFrom": null,
-    "timeShift": null,
-    "title": "Geolocation ",
-    "type": "grafana-worldmap-panel",
-    "unitPlural": "",
-    "unitSingle": "",
-    "valueName": "max"
-  }],
+      "targets": [{
+        "groupBy": [{
+            "params": [
+              "$__interval"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "orderByTime": "ASC",
+        "policy": "default",
+        "query": "SELECT max(Confirmed) as Count FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "table",
+        "select": [
+          [{
+              "params": [
+                "value"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [],
+              "type": "mean"
+            }
+          ]
+        ],
+        "tags": []
+      }],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Dataset",
+      "transform": "table",
+      "type": "table"
+    }
+  ],
   "schemaVersion": 22,
   "style": "dark",
   "tags": [],
@@ -131,5 +271,5 @@
   "variables": {
     "list": []
   },
-  "version": 7
+  "version": 9
 }

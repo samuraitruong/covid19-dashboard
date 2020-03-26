@@ -1,5 +1,6 @@
 const moment = require("moment");
 const lookup = require('country-code-lookup')
+const GeoHash = require('ngeohash');
 
 const {
   getCountriesData,
@@ -12,15 +13,21 @@ const writeDataToClient = async (client, data, measurement, country) => {
     const ts = moment(x.Date, "YYYY-MM-DD").unix() * 1000000000
     x.Country = x.Country || country;
     const countryCode = lookup.byCountry(x.Country) || {};
+    let geohash = GeoHash.encode(0, 0);
+    if (x.Lat && x.Long) {
+      geohash = GeoHash.encode(x.Lat, x.Long)
+    }
     return {
       measurement,
       tags: {
         Country: x.Country,
         CountryCode: countryCode.iso2 || 'na',
-        State: x.State_Province || 'na'
+        State: x.State_Province || 'na',
+        geohash
       },
       fields: {
         ...x,
+        geohash
       },
       timestamp: ts
     }
