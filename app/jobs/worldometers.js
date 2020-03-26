@@ -28,13 +28,17 @@ const getData = async () => {
   const $ = cheerio.load(res.data);
   const summary = extractChartData(res.data);
   const rows = $("#main_table_countries_today tbody tr").toArray();
+  const ref = {};
   const data = rows.map((tr) => {
     const td = $("td", tr).toArray();
     let Country = $(td[0]).text().trim();
+    const href = $(".mt_a", td[0]).attr("href");
     // Make data same with other source 
     if (Country === "USA") Country = "US";
     if (Country === "S. Korea") Country = "Korea, South";
-
+    if (href) {
+      ref[Country] = href;
+    }
     return {
       Country,
       Confirmed: toNumber($(td[1]).text()),
@@ -47,6 +51,7 @@ const getData = async () => {
     }
   })
   return {
+    ref,
     data: data.filter(x => x.Country !== "Total:"),
     summary,
     timestamp
@@ -132,7 +137,7 @@ const writeSummaryData = async (client, data, country) => {
       points.push({
         measurement: item.key,
         tags: {
-          Country: country  
+          Country: country
         },
         fields: {
           Value: item.data.values[index] || 0,
@@ -157,8 +162,17 @@ const worldometerJob = async (client) => {
     console.log("worldometerJob  finished");
     // more case from here https://www.worldometers.info/coronavirus/coronavirus-cases/
     await writeSummaryData(client, lastestData.summary);
-    const au = await getDataFromUrl("https://www.worldometers.info/coronavirus/country/australia/", "Australia");
-    await writeSummaryData(client, au.data, au.country);
+
+    for (const country in lastestData.ref) {
+      if (lastestData.ref.hasOwnProperty(country)) {
+        const url = lastestData.ref[country];
+        console.log("worldometer get country details", url, country)
+        const au = await getDataFromUrl("https://www.worldometers.info/coronavirus/" + url, country);
+        await writeSummaryData(client, au.data, au.country);
+      }
+    }
+
+
     const sorted = lastestData.data.sort((a, b) => {
       return a.Confirmed > b.Confirmed
     });
