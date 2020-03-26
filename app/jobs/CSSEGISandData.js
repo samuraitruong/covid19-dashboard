@@ -23,11 +23,12 @@ const writeDataToClient = async (client, data, measurement, country) => {
         Country: x.Country,
         CountryCode: countryCode.iso2 || 'na',
         State: x.State_Province || 'na',
+        geoname: `${x.Country} - ${x.State_Province || ""}`,
         geohash
       },
       fields: {
         ...x,
-        geohash
+        geohash,
       },
       timestamp: ts
     }

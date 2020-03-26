@@ -34,7 +34,7 @@
       "datasource": "InfluxDB",
       "decimals": 0,
       "esGeoPoint": "geohash",
-      "esLocationName": "Country",
+      "esLocationName": "geoname",
       "esMetric": "Count",
       "gridPos": {
         "h": 18,
@@ -81,7 +81,7 @@
         "measurement": "Cases",
         "orderByTime": "ASC",
         "policy": "autogen",
-        "query": "SELECT max(Confirmed) as Count, geohash as geohash FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country , geohash",
+        "query": "SELECT max(Confirmed) as Count, geohash as geohash ,geoname as geoname FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country , geohash",
         "rawQuery": true,
         "refId": "A",
         "resultFormat": "table",
@@ -278,5 +278,5 @@
   "variables": {
     "list": []
   },
-  "version": 9
+  "version": 13
 }
