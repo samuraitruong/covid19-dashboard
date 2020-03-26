@@ -43,18 +43,18 @@ const writeDataToClient = async (client, data, measurement, country) => {
 const CSSEGISandDataJob = async (client) => {
   try {
     console.log('CSSEGISandDataJob Started ...');
-    await client.dropMeasurement("ByCountry");
+    // await client.dropMeasurement("ByCountry");
 
     const data = await getCountriesData();
     await writeDataToClient(client, data, "ByCountry");
 
-    await client.dropMeasurement("WorldWide");
+    // await client.dropMeasurement("WorldWide");
     const globalData = await getGlobalData();
     await writeDataToClient(client, globalData, "WorldWide", "Global");
 
     const combiedData = await getCountryCombinedData();
     // console.log("combiedData", combiedData)
-    await client.dropMeasurement("Cases");
+    // await client.dropMeasurement("Cases");
     await writeDataToClient(client, combiedData, "Cases");
 
   } catch (err) {

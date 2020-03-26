@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 # Refresh content on server using git pull command.
-
+# backup data
+cp -R /home/covid19-dashboard/data /tmp/backup
 cd /home/covid19-dashboard
 chmod -R 777 ./data
 ls
