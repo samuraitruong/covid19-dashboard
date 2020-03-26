@@ -14,7 +14,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 32,
-  "iteration": 1585182069484,
+  "iteration": 1585195597044,
   "links": [],
   "panels": [{
       "aliasColors": {},
@@ -574,6 +574,7 @@
       },
       "hiddenSeries": false,
       "id": 10,
+      "interval": "",
       "legend": {
         "avg": false,
         "current": true,
@@ -594,7 +595,7 @@
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [{
-          "alias": "Confirmed",
+          "alias": "New Case",
           "color": "#FF9830",
           "linewidth": 6
         },
@@ -612,7 +613,7 @@
       "stack": false,
       "steppedLine": false,
       "targets": [{
-        "alias": "Confirmed",
+        "alias": "New Case",
         "groupBy": [{
             "params": [
               "12h"
@@ -629,7 +630,7 @@
         "measurement": "Australia",
         "orderByTime": "ASC",
         "policy": "autogen",
-        "query": "SELECT mean(\"Confirmed\") FROM \"autogen\".\"Australia\" WHERE (\"State\" = 'na') AND $timeFilter GROUP BY time(24h) fill(null)",
+        "query": "SELECT mean(\"Value\") FROM \"autogen\".\"graph-cases-daily\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY time(24h) fill(null)",
         "rawQuery": true,
         "refId": "A",
         "resultFormat": "time_series",
@@ -795,5 +796,5 @@
   "variables": {
     "list": []
   },
-  "version": 2
+  "version": 3
 }
