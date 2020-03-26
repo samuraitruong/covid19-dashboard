@@ -42,6 +42,18 @@ services:
       ALLOW_SIGNUP: "false"
     links:
       - influxdb
+  kapacitor:
+    image: kapacitor
+    container_name: kapacitor
+    ports:
+      - 9092:9092
+    volumes:
+      - ./data/kapacitor:/var/lib/kapacitor
+    environment:
+      KAPACITOR_INFLUXDB_0_URLS_0: "http://influxdb:8086"
+      KAPACITOR_LOGGING_LEVEL: "info"
+    depends_on:
+      - influxdb
   job_runner:
     build: .
     container_name: job_runner
