@@ -1,7 +1,6 @@
 {
   "annotations": {
     "list": [{
-      "$$hashKey": "object:149",
       "builtIn": 1,
       "datasource": "-- Grafana --",
       "enable": true,
@@ -14,13 +13,14 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
+  "id": 28,
   "links": [],
   "panels": [{
       "circleMaxSize": 30,
       "circleMinSize": 2,
       "colors": [
         "#37872D",
-        "#56A64B",
+        "#96D98D",
         "#FFF899",
         "#F2CC0C",
         "#FF780A",
@@ -130,7 +130,7 @@
           }
         ]
       }],
-      "thresholds": "0,50,100,1000,2500, 5000, 10000, 20000, 30000, 50000",
+      "thresholds": "10,50,100,1000,2500, 5000, 10000, 20000, 30000, 50000",
       "timeFrom": null,
       "timeShift": null,
       "title": "View By Location ",
@@ -157,7 +157,6 @@
         "desc": true
       },
       "styles": [{
-          "$$hashKey": "object:844",
           "alias": "Time",
           "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -165,28 +164,29 @@
           "type": "hidden"
         },
         {
-          "$$hashKey": "object:3188",
           "alias": "Confirmed",
           "align": "auto",
-          "colorMode": null,
+          "colorMode": "value",
           "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
+            "#FA6400",
+            "#C4162A",
+            "#B877D9"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
+          "decimals": 0,
           "mappingType": 1,
           "pattern": "Count",
-          "thresholds": [],
+          "thresholds": [
+            "500",
+            " 1000"
+          ],
           "type": "number",
           "unit": "short"
         },
         {
-          "$$hashKey": "object:845",
           "alias": "",
           "align": "right",
-          "colorMode": null,
+          "colorMode": "value",
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -194,7 +194,11 @@
           ],
           "decimals": 2,
           "pattern": "/.*/",
-          "thresholds": [],
+          "thresholds": [
+            "50",
+            " 1000",
+            " 2000"
+          ],
           "type": "number",
           "unit": "short"
         }
