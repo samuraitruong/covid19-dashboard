@@ -1,6 +1,7 @@
 const moment = require("moment");
 const lookup = require('country-code-lookup')
-const GeoHash = require('ngeohash');
+const GeoHash = require("ngeohash");
+const logger = require("../logger");
 
 const {
   getCountriesData,
@@ -8,7 +9,7 @@ const {
   getCountryCombinedData
 } = require("../data");
 const writeDataToClient = async (client, data, measurement, country) => {
-  console.log("Writing data to InfluxDB", measurement)
+  logger.info("Writing data to InfluxDB", measurement)
   const points = data.map(x => {
     const ts = moment(x.Date, "YYYY-MM-DD").unix() * 1000000000
     x.Country = x.Country || country;
@@ -35,14 +36,14 @@ const writeDataToClient = async (client, data, measurement, country) => {
   });
   try {
     await client.writePoints(points);
-    console.log('CSSEGISandDataJob FINISHED ...', measurement);
+    logger.info('CSSEGISandDataJob FINISHED ...', measurement);
   } catch (err) {
-    console.log("Error writing to influxDB", err.message || err);
+    logger.info("Error writing to influxDB", err.message || err);
   }
 }
 const CSSEGISandDataJob = async (client) => {
   try {
-    console.log('CSSEGISandDataJob Started ...');
+    logger.info('CSSEGISandDataJob Started ...');
     // await client.dropMeasurement("ByCountry");
 
     const data = await getCountriesData();
@@ -53,12 +54,12 @@ const CSSEGISandDataJob = async (client) => {
     await writeDataToClient(client, globalData, "WorldWide", "Global");
 
     const combiedData = await getCountryCombinedData();
-    // console.log("combiedData", combiedData)
+    // logger.info("combiedData", combiedData)
     // await client.dropMeasurement("Cases");
     await writeDataToClient(client, combiedData, "Cases");
 
   } catch (err) {
-    console.log("CSSEGISandDataJob Error occured: ", err)
+    logger.info("CSSEGISandDataJob Error occured: ", err)
   }
 
 }

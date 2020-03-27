@@ -1,6 +1,8 @@
 const axios = require("axios").default;
 const moment = require("moment");
 const cheerio = require("cheerio");
+const logger = require("../logger");
+
 const toNumber = (stringNumber) => {
   if (!stringNumber) return 0;
   if (!stringNumber.replace) return stringNumber;
@@ -28,7 +30,7 @@ const extractChartData = (html) => {
 const getData = async () => {
   const res = await axios.get("https://www.worldometers.info/coronavirus");
   const timestamp = moment(res.headers["date"]).unix() * 1000000000
-  console.log("wordometer last update at ", res.headers["date"]);
+  logger.info("wordometer last update at %s", res.headers["date"]);
   const $ = cheerio.load(res.data);
   const summary = extractChartData(res.data);
   const rows = $("#main_table_countries_today tbody tr").toArray();
@@ -87,7 +89,7 @@ const extractTableData = ($) => {
 const getDataFromUrl = async (url, country) => {
   const res = await axios.get(url);
   const timestamp = moment(res.headers["date"]).unix() * 1000000000
-  console.log("wordometer last update at ", url, res.headers["date"]);
+  logger.info("wordometer last update at %s", url, res.headers["date"]);
   const $ = cheerio.load(res.data);
   const data = extractChartData(res.data);
   const tables = extractTableData($);
@@ -100,7 +102,7 @@ const getDataFromUrl = async (url, country) => {
 
 }
 const writeDataToClient = async (client, data, measurement, timestamp) => {
-  console.log("Writing worldometer data to InfluxDB : measurement", measurement)
+  logger.info("Writing worldometer data to InfluxDB : measurement = %s", measurement)
   const points = data.map(x => {
     x.Country = x.Country || country;
     return {
@@ -116,16 +118,16 @@ const writeDataToClient = async (client, data, measurement, timestamp) => {
   });
   try {
     await client.writePoints(points);
-    console.log('worldometer FINISHED ...', measurement);
+    logger.info('worldometer FINISHED ... %s', measurement);
   } catch (err) {
-    console.log("worldometer Error writing to influxDB ", err);
+    logger.info("worldometer Error writing to influxDB  %j", err);
   }
 }
 
 const writeRank = async (client, data) => {
   await client.dropMeasurement("Rank");
 
-  console.log("Writing worldometer rank data to InfluxDB")
+  logger.info("Writing worldometer rank data to InfluxDB")
   const points = [];
   data.forEach((item, index) => {
     points.push({
@@ -142,9 +144,9 @@ const writeRank = async (client, data) => {
 
   try {
     await client.writePoints(points);
-    console.log('worldometer successful write rank data ...');
+    logger.info('worldometer successful write rank data ...');
   } catch (err) {
-    console.log("worldometer Error writing rank data to influxDB ", err);
+    logger.info("worldometer Error writing rank data to influxDB %j", err);
   }
 }
 /**
@@ -155,7 +157,7 @@ const writeRank = async (client, data) => {
 const writeChartData = async (client, charts, country) => {
   country = country || "Global";
   for (const item of charts) {
-    console.log("writing summary worldometer chart data :", item.key, country);
+    logger.info("writing summary worldometer chart data : %s %s", item.key, country);
     const points = [];
     item.data.categories.forEach((date, index) => {
       const timestamp = moment(date, "MMM DD").unix() * 1000000000
@@ -173,9 +175,9 @@ const writeChartData = async (client, charts, country) => {
     try {
       // await client.dropMeasurement(item.key);
       await client.writePoints(points);
-      console.log('worldometer successful write chart data ...', item.key, country);
+      logger.info('worldometer successful write chart data ... %s %s', item.key, country);
     } catch (err) {
-      console.error("worldometer Error writing chart data to influxDB ", err.message || err, country, item.key);
+      console.error("worldometer Error writing chart data to influxDB %j %s", err.message || err, country, item.key);
     }
   }
 }
@@ -189,7 +191,7 @@ const writeChartData = async (client, charts, country) => {
 const writeTableData = async (client, tables, country, timestamp) => {
   country = country || "Global";
   for (const table of tables) {
-    console.log("writing summary worldometer table data :", table.id, country, timestamp);
+    logger.info("writing summary worldometer table data : %s %s %j", table.id, country, timestamp);
     const points = [];
     table.data.forEach((item) => {
       points.push({
@@ -207,28 +209,28 @@ const writeTableData = async (client, tables, country, timestamp) => {
     try {
       // await client.dropMeasurement(item.key);
       await client.writePoints(points);
-      console.log('worldometer successful write data ...', item.key, country);
+      logger.info('worldometer successful write data ... %s %s', item.key, country);
     } catch (err) {
-      console.error("worldometer Error writing rank data to influxDB ", err.message || err, country, table.key);
+      console.error("worldometer Error writing rank data to influxDB  %j %d %s", err.message || err, country, table.key);
     }
   }
 }
 
 const worldometerJob = async (client) => {
   try {
-    console.log("worldometerJob running...")
+    logger.info("worldometerJob running...")
     const lastestData = await getData();
     await writeDataToClient(client, lastestData.data, "ByCountry", lastestData.timestamp)
-    console.log("worldometerJob  finished");
+    logger.info("worldometerJob finished");
     // more case from here https://www.worldometers.info/coronavirus/coronavirus-cases/
     await writeChartData(client, lastestData.summary);
 
     for (const country in lastestData.ref) {
       if (lastestData.ref.hasOwnProperty(country)) {
         const url = lastestData.ref[country];
-        console.log("worldometer get country details", url, country)
+        logger.info("worldometer get country details %s %s", url, country)
         const au = await getDataFromUrl("https://www.worldometers.info/coronavirus/" + url, country);
-        // console.log("*********", au.tables)
+        // logger.info("*********", au.tables)
         await writeChartData(client, au.data, au.country);
         await writeTableData(client, au.tables, au.country, au.timestamp);
       }
@@ -241,12 +243,11 @@ const worldometerJob = async (client) => {
     await writeRank(client, sorted);
 
   } catch (err) {
-    console.log("worldometerJob error", err)
+    logger.info("worldometerJob error %j", err)
   }
 }
 module.exports = worldometerJob;
 // test me
-getDataFromUrl("https://www.worldometers.info/coronavirus/country/us/", "US").then((d) => {
-  console.log(d)
-
-})
+// getDataFromUrl("https://www.worldometers.info/coronavirus/country/us/", "US").then((d) => {
+//   logger.info(d)
+// })

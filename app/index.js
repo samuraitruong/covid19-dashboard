@@ -3,8 +3,12 @@ const CSSEGISandDataJob = require("./jobs/CSSEGISandData");
 const worldometerJob = require("./jobs/worldometers");
 const australiaJob = require("./jobs/australiaHealth")
 const client = require("./client");
+const logger = require("./logger");
 
 (async () => {
+  logger.info("Job runner started %s", {
+    app: "job_runner",
+  })
   if (process.env.NODE_ENV !== "production") {
     require('dotenv').config({});
   }
@@ -12,9 +16,9 @@ const client = require("./client");
   const sleep = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout || 5000));
   do {
     try {
-      console.log("Verify InfluxDB status");
+      logger.info("Verify InfluxDB status");
       const dbNames = await client.getDatabaseNames();
-      console.log("InfluxDB is ready, database names: ", dbNames)
+      logger.info("InfluxDB is ready, database names: %j ", dbNames)
       break;
     } catch (err) {
       console.warn("InfluxDB not ready , retrying after 5s");
@@ -30,14 +34,15 @@ const client = require("./client");
   await jobTaks();
 
   const scheduleCron = process.env.SCHEDULE_CRON || '* */1 * * *';
-  console.log("Setup job schedule running by cron: ", scheduleCron)
+  logger.info("Setup job schedule running by cron: %s", scheduleCron)
   const job = schedule.scheduleJob(scheduleCron,
     async () => {
       try {
-        console.log('Schedule running ....');
+        logger.info('---- Scheduler started ----');
         await jobTaks();
+        logger.info('---- Scheduler finished ----');
       } catch (err) {
-        console.log("Job runner error", err)
+        logger.info("Job runner error %j", err)
       }
     });
 })();

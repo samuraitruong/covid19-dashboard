@@ -2,4 +2,5 @@ node_modules/
 .env
 data/influxdb/data/
 data/influxdb/wal/
+data/elasticsearch/data
 travis_deploy_rsa

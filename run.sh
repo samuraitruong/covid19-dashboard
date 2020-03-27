@@ -5,7 +5,9 @@
 #service iptables save
 #service iptables restart
 
-docker-compose down && docker-compose up --remove-orphans -d --build && docker-compose logs -f grafana job_runner influxdb chronograf
+docker-compose down 
+docker-compose up --remove-orphans -d --build 
+docker-compose logs -f grafana job_runner influxdb chronograf elasticsearch kibana kapacitor
 
 
 # deploy to google cloud machine

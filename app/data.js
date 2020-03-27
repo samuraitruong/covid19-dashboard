@@ -32,7 +32,7 @@ const getCountriesData = async () => {
 }
 
 const getCountryCombinedData = async () => {
-  url = "https://raw.githubusercontent.com/datasets/covid-19/master/data/https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv";
+  url = "https://raw.githubusercontent.com/datasets/covid-19/master/data/time-series-19-covid-combined.csv";
   let {
     data
   } = await axios.get(url);
