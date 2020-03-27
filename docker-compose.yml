@@ -60,9 +60,8 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-    volumes:
-      - ./data/kapacitor:/var/lib/kapacitor
-      - ./data/elasticsearch/data:/usr/share/elasticsearch/data
+    # volumes:
+    #   - ./data/elasticsearch/data:/usr/share/elasticsearch/data
     environment:
       discovery.type: "single-node"
   kibana:
