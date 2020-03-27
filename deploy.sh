@@ -14,6 +14,8 @@ git pull
 chmod -R 777 ./data
 echo "Removing docker running"
 docker-compose down
+echo "Remove docker logs"
+truncate -s 0 /var/lib/docker/containers/*/*-json.log || true
 echo "Start new docker containers"
 docker-compose up --remove-orphans -d --build
 
@@ -24,3 +26,6 @@ echo "Install grafana plugins"
 docker exec grafana sh -c "grafana-cli plugins install grafana-piechart-panel"
 
 docker restart grafana
+
+echo "Clean up docker images"
+docker image prune --all --force

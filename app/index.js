@@ -21,7 +21,7 @@ const logger = require("./logger");
       logger.info("InfluxDB is ready, database names: %j ", dbNames)
       break;
     } catch (err) {
-      console.warn("InfluxDB not ready , retrying after 5s");
+      logger.warn("InfluxDB not ready , retrying after 5s");
       await sleep(5000);
     }
   } while (true);
