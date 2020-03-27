@@ -2,15 +2,7 @@ const axios = require("axios").default;
 const moment = require("moment");
 const cheerio = require("cheerio");
 const logger = require("../logger");
-
-const toNumber = (stringNumber) => {
-  if (!stringNumber) return 0;
-  if (!stringNumber.replace) return stringNumber;
-
-  stringNumber = stringNumber.replace(",", "");
-  stringNumber = stringNumber.replace("+", "");
-  return parseInt(stringNumber, 10) || 0;
-}
+const toNumber = require("../util").toNumber;
 const extractChartData = (html) => {
   const matches = html.match(/chart\('(.*)',\s+([^;]*)/igm);
   const data = [];

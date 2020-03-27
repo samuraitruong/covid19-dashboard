@@ -2,6 +2,7 @@ const moment = require("moment");
 const lookup = require('country-code-lookup')
 const GeoHash = require("ngeohash");
 const logger = require("../logger");
+const util = require("../util");
 
 const {
   getCountriesData,
@@ -11,7 +12,7 @@ const {
 const writeDataToClient = async (client, data, measurement, country) => {
   logger.info("Writing data to InfluxDB", measurement)
   const points = data.map(x => {
-    const ts = moment(x.Date, "YYYY-MM-DD").unix() * 1000000000
+    const ts = util.momentToTimestamp(moment(x.Date, "YYYY-MM-DD"));
     x.Country = x.Country || country;
     const countryCode = lookup.byCountry(x.Country) || {};
     let geohash = GeoHash.encode(0, 0);
