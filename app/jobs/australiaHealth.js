@@ -2,6 +2,7 @@ const axios = require("axios").default;
 const cheerio = require("cheerio");
 const moment = require("moment")
 const australiaMeasurement = "Australia";
+const logger = require("../logger");
 const toNumber = (stringNumber) => {
   stringNumber = stringNumber.replace(",", "");
   return parseInt(stringNumber, 10) || 0;
@@ -48,7 +49,7 @@ const normalizeData = (data) => {
   return list;
 }
 const writeDataToClient = async (client, data) => {
-  console.log("Writing Australia data to InfluxDB")
+  logger.info("Writing Australia data to InfluxDB")
   const stateMappings = {
     VIC: "Victoria",
     NSW: "New South Wales",
@@ -78,24 +79,24 @@ const writeDataToClient = async (client, data) => {
   });
   try {
     await client.writePoints(points);
-    console.log('AustraliaHealth Job FINISHED ...');
+    logger.info('AustraliaHealth Job FINISHED ...');
   } catch (err) {
-    console.error("AustraliaHealth Job: Error writing to influxDB", err.message || err);
+    logger.error("AustraliaHealth Job: Error writing to influxDB", err.message || err);
   }
 }
 
 const australiaJob = async (client) => {
   try {
-    console.log("australiaJob started")
+    logger.info("australiaJob started")
     const wikiData = await wikiDataSource();
     const transformedData = normalizeData(wikiData);
     await await client.dropMeasurement(australiaMeasurement);
     await writeDataToClient(client, transformedData)
-    console.log("australiaJob finished")
+    logger.info("australiaJob finished")
   } catch (err) {
     console.error("australiaJob error", err.message || err)
   }
 }
 module.exports = australiaJob;
 
-//australiaJob().then(console.log)//
+//australiaJob().then(logger.info)//
