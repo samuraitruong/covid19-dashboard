@@ -2,9 +2,10 @@ const schedule = require('node-schedule');
 const CSSEGISandDataJob = require("./jobs/CSSEGISandData");
 const worldometerJob = require("./jobs/worldometers");
 const australiaJob = require("./jobs/australiaHealth")
+const infogramJob = require("./jobs/infogram");
+
 const client = require("./client");
 const logger = require("./logger");
-
 (async () => {
   logger.info("Job runner started %s", {
     app: "job_runner",
@@ -26,6 +27,7 @@ const logger = require("./logger");
     }
   } while (true);
   const jobTaks = async () => {
+    await infogramJob(client);
     await CSSEGISandDataJob(client);
     await await worldometerJob(client);
     await australiaJob(client);

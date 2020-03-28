@@ -4,19 +4,23 @@ const cheerio = require("cheerio");
 const logger = require("../logger");
 const toNumber = require("../util").toNumber;
 const extractChartData = (html) => {
-  const matches = html.match(/chart\('(.*)',\s+([^;]*)/igm);
+  const matches = html.matchAll(/chart\('([^']*)',\s+([^;]*)\);/g);
   const data = [];
-  matches.forEach((m) => {
-    m = m.replace(/\n/g, "")
-    const el = m.match(/chart\('([^,]*)',\s+(.*)\)/m);
+  for (const r of matches) {
+    const json = r[2].replace("d'Ivoire", "dIvoire")
+    const chart = eval(`(${json})`);
+    if (!chart || !chart.xAxis) {
+      console.log("not chart", r[1]);
+      continue;
+    }
     data.push({
-      key: m.match(/chart\('([^,]*)',/m)[1],
+      key: r[1],
       data: {
-        categories: eval(m.match(/categories:([^}]*)/m)[1]),
-        values: eval(m.match(/data:([^}]*)/m)[1])
+        categories: chart.xAxis.categories,
+        values: chart.series[0].data
       }
     })
-  })
+  }
   return data;
 }
 const getData = async () => {
@@ -228,7 +232,9 @@ const worldometerJob = async (client) => {
       }
     }
 
-
+    // test me
+    const globalData = await getDataFromUrl("https://www.worldometers.info/coronavirus/coronavirus-cases/", "Global");
+    await writeChartData(client, globalData.data, "Global");
     const sorted = lastestData.data.sort((a, b) => {
       return a.Confirmed > b.Confirmed
     });
@@ -239,7 +245,3 @@ const worldometerJob = async (client) => {
   }
 }
 module.exports = worldometerJob;
-// test me
-// getDataFromUrl("https://www.worldometers.info/coronavirus/country/us/", "US").then((d) => {
-//   logger.info(d)
-// })

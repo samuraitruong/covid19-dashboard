@@ -1,6 +1,7 @@
 {
   "annotations": {
     "list": [{
+      "$$hashKey": "object:1247",
       "builtIn": 1,
       "datasource": "-- Grafana --",
       "enable": true,
@@ -13,7 +14,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 33,
   "links": [],
   "panels": [{
       "aliasColors": {},
@@ -24,7 +24,7 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 12,
         "x": 0,
         "y": 0
@@ -260,7 +260,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 9
       },
       "hiddenSeries": false,
       "id": 2,
@@ -367,6 +367,131 @@
         "align": false,
         "alignLevel": null
       }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "interval": "",
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [{
+        "$$hashKey": "object:1450",
+        "alias": "Serious Cases",
+        "color": "#C4162A"
+      }],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [{
+        "alias": "Serious Cases",
+        "groupBy": [{
+            "params": [
+              "24h"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "total-serious-linear",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
+              "params": [
+                "Value"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [],
+              "type": "max"
+            }
+          ]
+        ],
+        "tags": [{
+          "key": "Country",
+          "operator": "=",
+          "value": "Global"
+        }]
+      }],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Serious Case historical",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [{
+          "$$hashKey": "object:1310",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:1311",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
   "schemaVersion": 22,
@@ -399,5 +524,5 @@
   "variables": {
     "list": []
   },
-  "version": 2
+  "version": 4
 }

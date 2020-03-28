@@ -90,6 +90,7 @@ services:
       SCHEDULE_CRON: "*/15 * * * *"
       INFLUXDB_HOST: "influxdb"
       ELASTICSEARCH_URL: "http://elasticsearch:9200"
+      MAPQUEST_KEY: "${MAPQUEST_KEY}"
     depends_on:
       - influxdb
       - elasticsearch
