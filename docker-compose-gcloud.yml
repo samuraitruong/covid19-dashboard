@@ -83,11 +83,10 @@ services:
       - ./app:/usr/app
       - /usr/app/node_modules/
     entrypoint:
-      - npm
-      - run
-      - dev
+      - npm 
+      - start
     environment:
-      SCHEDULE_CRON: "*/5 * * * *"
+      SCHEDULE_CRON: "*/1 * * * *"
       INFLUXDB_HOST: "influxdb"
       ELASTICSEARCH_URL: "http://elasticsearch:9200"
       MAPQUEST_KEY: "${MAPQUEST_KEY}"

@@ -2,6 +2,7 @@
 set -e
 # Refresh content on server using git pull command.
 # backup data
+
 cp -R /home/covid19-dashboard/data /tmp/backup
 cd /home/covid19-dashboard
 chmod -R 777 ./data
@@ -13,11 +14,11 @@ git reset --hard origin/master
 git pull
 chmod -R 777 ./data
 echo "Removing docker running"
-docker-compose down
+docker-compose down -f docker-compose-gcloud.yml
 echo "Remove docker logs"
 truncate -s 0 /var/lib/docker/containers/*/*-json.log || true
 echo "Start new docker containers"
-docker-compose up --remove-orphans -d --build
+docker-compose up --remove-orphans -d --build -f docker-compose-gcloud.yml
 
 echo "Set IP forward rule to map port 80 to 4000 - grafana"
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 4000

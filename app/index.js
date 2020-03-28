@@ -7,6 +7,12 @@ const infogramJob = require("./jobs/infogram");
 const client = require("./client");
 const logger = require("./logger");
 (async () => {
+  process.on("unhandledRejection", (reason) => {
+    logger.error('unhandledRejection error : ', reason)
+  })
+  process.on("unhandledRejection", (reason) => {
+    logger.error('unhandledRejection  error : ', reason)
+  })
   logger.info("Job runner started %s", {
     app: "job_runner",
   })
