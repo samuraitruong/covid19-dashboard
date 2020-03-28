@@ -60,8 +60,8 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
-    # volumes:
-    #   - ./data/elasticsearch/data:/usr/share/elasticsearch/data
+    volumes:
+      - ./data/elasticsearch/data:/usr/share/elasticsearch/data
     environment:
       discovery.type: "single-node"
   kibana:
@@ -87,7 +87,7 @@ services:
       - run
       - dev
     environment:
-      SCHEDULE_CRON: "*/15 * * * *"
+      SCHEDULE_CRON: "*/1 * * * *"
       INFLUXDB_HOST: "influxdb"
       ELASTICSEARCH_URL: "http://elasticsearch:9200"
       MAPQUEST_KEY: "${MAPQUEST_KEY}"
