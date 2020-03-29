@@ -14,11 +14,11 @@ git reset --hard origin/master
 git pull
 chmod -R 777 ./data
 echo "Removing docker running"
-docker-compose down -f docker-compose-gcloud.yml
+docker-compose down || true
 echo "Remove docker logs"
 truncate -s 0 /var/lib/docker/containers/*/*-json.log || true
 echo "Start new docker containers"
-docker-compose up --remove-orphans -d --build -f docker-compose-gcloud.yml
+docker-compose up --remove-orphans -d --build
 
 echo "Set IP forward rule to map port 80 to 4000 - grafana"
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 4000
