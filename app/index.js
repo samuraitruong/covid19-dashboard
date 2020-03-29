@@ -1,4 +1,3 @@
-const schedule = require('node-schedule');
 const CSSEGISandDataJob = require("./jobs/CSSEGISandData");
 const worldometerJob = require("./jobs/worldometers");
 const australiaJob = require("./jobs/australiaHealth")
