@@ -34,9 +34,9 @@ const logger = require("./logger");
     }
   } while (true);
   const jobTaks = async () => {
-    // await infogramJob(client);
-    // await CSSEGISandDataJob(client);
-    // await await worldometerJob(client);
+    await infogramJob(client);
+    await CSSEGISandDataJob(client);
+    await await worldometerJob(client);
     await australiaJob(client);
 
   }
