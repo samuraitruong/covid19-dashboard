@@ -14,9 +14,360 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1585452325914,
+  "iteration": 1585482818322,
   "links": [],
   "panels": [{
+      "datasource": null,
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 0,
+        "y": 0
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [{
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto"
+      },
+      "pluginVersion": "6.7.1",
+      "targets": [{
+        "groupBy": [{
+            "params": [
+              "$__interval"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "australian-covid-cases-2020",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "query": "SELECT max(\"Confirmed\") FROM \"ByCountry\" where Country='Australia' ",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [],
+              "type": "mean"
+            }
+          ]
+        ],
+        "tags": []
+      }],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total Cases",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 2,
+        "w": 11,
+        "x": 3,
+        "y": 0
+      },
+      "id": 16,
+      "interval": "",
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [{
+                  "color": "super-light-orange",
+                  "value": null
+                },
+                {
+                  "color": "light-orange",
+                  "value": 50
+                },
+                {
+                  "color": "semi-dark-orange",
+                  "value": 125
+                },
+                {
+                  "color": "dark-orange",
+                  "value": 500
+                },
+                {
+                  "color": "light-red",
+                  "value": 1000
+                },
+                {
+                  "color": "semi-dark-red",
+                  "value": 1500
+                },
+                {
+                  "color": "dark-red",
+                  "value": 2000
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto"
+      },
+      "pluginVersion": "6.7.1",
+      "targets": [{
+        "alias": "$tag_State",
+        "groupBy": [{
+            "params": [
+              "24h"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "australian-covid-cases-2020",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "query": "SELECT last(\"Confirmed\") FROM \"Australia\" Where  State != 'na' GROUP By State ",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [],
+              "type": "sum"
+            }
+          ]
+        ],
+        "tags": [{
+          "key": "State",
+          "operator": "=",
+          "value": "select tag value"
+        }]
+      }],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "State",
+      "type": "stat"
+    },
+    {
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 14,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [{
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 5000
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto"
+      },
+      "pluginVersion": "6.7.1",
+      "targets": [{
+        "groupBy": [{
+            "params": [
+              "$__interval"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "ByCountry",
+        "orderByTime": "ASC",
+        "policy": "autogen",
+        "query": "SELECT max(\"Confirmed\") FROM \"autogen\".\"Australia\" WHERE  $timeFilter AND (\"State\" =~ /^$state$/)",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [],
+              "type": "max"
+            }
+          ]
+        ],
+        "tags": [{
+          "key": "Country",
+          "operator": "=",
+          "value": "Australia"
+        }]
+      }],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Confirmed",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": null,
+      "fontSize": "80%",
+      "format": "short",
+      "gridPos": {
+        "h": 6,
+        "w": 7,
+        "x": 17,
+        "y": 0
+      },
+      "id": 12,
+      "interval": null,
+      "legend": {
+        "percentage": true,
+        "percentageDecimals": 1,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "values": true
+      },
+      "legendType": "Under graph",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "pie",
+      "strokeWidth": 1,
+      "targets": [{
+        "alias": "$tag_State",
+        "groupBy": [{
+            "params": [
+              "$__interval"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "State"
+            ],
+            "type": "tag"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "Australia",
+        "orderByTime": "ASC",
+        "policy": "autogen",
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            },
+            {
+              "params": [],
+              "type": "mean"
+            }
+          ]
+        ],
+        "tags": [{
+          "key": "State",
+          "operator": "!=",
+          "value": "na"
+        }]
+      }],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Distributed By State",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -26,10 +377,10 @@
       "fill": 4,
       "fillGradient": 0,
       "gridPos": {
-        "h": 16,
+        "h": 14,
         "w": 14,
         "x": 0,
-        "y": 0
+        "y": 2
       },
       "hiddenSeries": false,
       "id": 2,
@@ -222,173 +573,6 @@
         "align": false,
         "alignLevel": null
       }
-    },
-    {
-      "datasource": "InfluxDB",
-      "gridPos": {
-        "h": 2,
-        "w": 3,
-        "x": 14,
-        "y": 0
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "defaults": {
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [{
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 5000
-                }
-              ]
-            }
-          },
-          "overrides": [],
-          "values": false
-        },
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto"
-      },
-      "pluginVersion": "6.7.1",
-      "targets": [{
-        "groupBy": [{
-            "params": [
-              "$__interval"
-            ],
-            "type": "time"
-          },
-          {
-            "params": [
-              "null"
-            ],
-            "type": "fill"
-          }
-        ],
-        "measurement": "ByCountry",
-        "orderByTime": "ASC",
-        "policy": "autogen",
-        "query": "SELECT max(\"Confirmed\") FROM \"autogen\".\"Australia\" WHERE  $timeFilter AND (\"State\" =~ /^$state$/)",
-        "rawQuery": true,
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-          [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
-            },
-            {
-              "params": [],
-              "type": "max"
-            }
-          ]
-        ],
-        "tags": [{
-          "key": "Country",
-          "operator": "=",
-          "value": "Australia"
-        }]
-      }],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Confirmed",
-      "type": "stat"
-    },
-    {
-      "aliasColors": {},
-      "breakPoint": "50%",
-      "cacheTimeout": null,
-      "combine": {
-        "label": "Others",
-        "threshold": 0
-      },
-      "datasource": null,
-      "fontSize": "80%",
-      "format": "short",
-      "gridPos": {
-        "h": 6,
-        "w": 7,
-        "x": 17,
-        "y": 0
-      },
-      "id": 12,
-      "interval": null,
-      "legend": {
-        "percentage": true,
-        "percentageDecimals": 1,
-        "show": true,
-        "sort": "current",
-        "sortDesc": true,
-        "values": true
-      },
-      "legendType": "Under graph",
-      "links": [],
-      "maxDataPoints": 3,
-      "nullPointMode": "connected",
-      "pieType": "pie",
-      "strokeWidth": 1,
-      "targets": [{
-        "alias": "$tag_State",
-        "groupBy": [{
-            "params": [
-              "$__interval"
-            ],
-            "type": "time"
-          },
-          {
-            "params": [
-              "State"
-            ],
-            "type": "tag"
-          },
-          {
-            "params": [
-              "null"
-            ],
-            "type": "fill"
-          }
-        ],
-        "measurement": "Australia",
-        "orderByTime": "ASC",
-        "policy": "autogen",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-          [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
-            },
-            {
-              "params": [],
-              "type": "mean"
-            }
-          ]
-        ],
-        "tags": [{
-          "key": "State",
-          "operator": "!=",
-          "value": "na"
-        }]
-      }],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Distributed By State",
-      "type": "grafana-piechart-panel",
-      "valueName": "current"
     },
     {
       "cacheTimeout": null,
@@ -805,5 +989,5 @@
   "variables": {
     "list": []
   },
-  "version": 7
+  "version": 9
 }

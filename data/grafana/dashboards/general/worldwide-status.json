@@ -555,7 +555,7 @@
         "measurement": "WorldWide",
         "orderByTime": "ASC",
         "policy": "autogen",
-        "query": "SELECT mean(\"Deaths\") FROM \"autogen\".\"WorldWide\" WHERE (\"Country\" = 'Global') AND $timeFilter ",
+        "query": "SELECT max(\"Deaths\") FROM \"autogen\".\"WorldWide\" WHERE (\"Country\" = 'Global') AND $timeFilter ",
         "rawQuery": true,
         "refId": "A",
         "resultFormat": "time_series",
@@ -822,5 +822,5 @@
   "variables": {
     "list": []
   },
-  "version": 1
+  "version": 2
 }
