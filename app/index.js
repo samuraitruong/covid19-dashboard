@@ -45,13 +45,15 @@ const logger = require("./logger");
 
   await jobTaks();
   logger.info("Setup job schedule running by cron: %s", scheduleCron)
-  var job = new CronJob(scheduleCron, () => {
+  var job = new CronJob(scheduleCron, async () => {
     try {
       logger.info('---- Scheduler started ----');
       await jobTaks();
       logger.info('---- Scheduler finished ----');
     } catch (err) {
-      logger.info("Job runner error %j", err)
+      logger.info("Job runner error %s", err.message || err, {
+        error: error.stack
+      })
     }
   }, null, true, 'America/Los_Angeles');
   job.start();
