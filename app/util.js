@@ -5,6 +5,7 @@ module.exports = {
 
     stringNumber = stringNumber.replace(",", "");
     stringNumber = stringNumber.replace("+", "");
+    stringNumber = stringNumber.replace("-", "");
     return parseInt(stringNumber, 10) || 0;
   },
   momentToTimestamp: (m) => {

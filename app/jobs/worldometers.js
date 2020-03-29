@@ -2,7 +2,7 @@ const axios = require("axios").default;
 const moment = require("moment");
 const cheerio = require("cheerio");
 const logger = require("../logger");
-const toNumber = require("../util").toNumber;
+const util = require("../util");
 const extractChartData = (html) => {
   const matches = html.matchAll(/chart\('([^']*)',\s+([^;]*)\);/g);
   const data = [];
@@ -25,7 +25,7 @@ const extractChartData = (html) => {
 }
 const getData = async () => {
   const res = await axios.get("https://www.worldometers.info/coronavirus");
-  const timestamp = moment(res.headers["date"]).unix() * 1000000000
+  const timestamp = util.momentToTimestamp(moment(res.headers["date"]));
   logger.info("wordometer last update at %s", res.headers["date"]);
   const $ = cheerio.load(res.data);
   const summary = extractChartData(res.data);
@@ -43,13 +43,13 @@ const getData = async () => {
     }
     return {
       Country,
-      Confirmed: toNumber($(td[1]).text()),
-      NewConfirmed: toNumber($(td[2]).text()),
-      Deaths: toNumber($(td[3]).text()),
-      NewDeaths: toNumber($(td[4]).text()),
-      Recovered: toNumber($(td[5]).text()),
-      ActiveCases: toNumber($(td[6]).text()),
-      CriticalCase: toNumber($(td[7]).text()),
+      Confirmed: util.toNumber($(td[1]).text()),
+      NewConfirmed: util.toNumber($(td[2]).text()),
+      Deaths: util.toNumber($(td[3]).text()),
+      NewDeaths: util.toNumber($(td[4]).text()),
+      Recovered: util.toNumber($(td[5]).text()),
+      ActiveCases: util.toNumber($(td[6]).text()),
+      CriticalCase: util.toNumber($(td[7]).text()),
     }
   })
   return {
@@ -71,7 +71,7 @@ const extractTableData = ($) => {
         state: $(tds[0]).text().trim()
       };
       headers.forEach((header, index) => {
-        row[header] = toNumber($(tds[index]).text());
+        row[header] = util.toNumber($(tds[index]).text());
       });
       return row;
     })
@@ -84,7 +84,7 @@ const extractTableData = ($) => {
 }
 const getDataFromUrl = async (url, country) => {
   const res = await axios.get(url);
-  const timestamp = moment(res.headers["date"]).unix() * 1000000000
+  const timestamp = util.momentToTimestamp(moment(res.headers["date"]));
   logger.info("wordometer last update at %s", url, res.headers["date"]);
   const $ = cheerio.load(res.data);
   const data = extractChartData(res.data);
@@ -163,7 +163,7 @@ const writeChartData = async (client, charts, country) => {
           Country: country
         },
         fields: {
-          Value: toNumber(item.data.values[index]) || 0,
+          Value: util.toNumber(item.data.values[index]) || 0,
         },
         timestamp
       });
@@ -216,8 +216,8 @@ const worldometerJob = async (client) => {
   try {
     logger.info("worldometerJob running...")
     const lastestData = await getData();
-    await writeDataToClient(client, lastestData.data, "ByCountry", lastestData.timestamp)
-    logger.info("worldometerJob finished");
+    await writeDataToClient(client, lastestData.data, "ByCountry", lastestData.timestamp);
+    await writeDataToClient(client, lastestData.data, "worldometers-corona", lastestData.timestamp)
     // more case from here https://www.worldometers.info/coronavirus/coronavirus-cases/
     await writeChartData(client, lastestData.summary);
 
@@ -239,6 +239,7 @@ const worldometerJob = async (client) => {
       return a.Confirmed > b.Confirmed
     });
     await writeRank(client, sorted);
+    logger.info("worldometerJob finished");
 
   } catch (err) {
     logger.info("worldometerJob error %j", err)
