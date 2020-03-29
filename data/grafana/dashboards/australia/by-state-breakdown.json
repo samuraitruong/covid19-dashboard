@@ -1,6 +1,7 @@
 {
   "annotations": {
     "list": [{
+      "$$hashKey": "object:10",
       "builtIn": 1,
       "datasource": "-- Grafana --",
       "enable": true,
@@ -13,8 +14,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 32,
-  "iteration": 1585195597052,
+  "iteration": 1585452325914,
   "links": [],
   "panels": [{
       "aliasColors": {},
@@ -90,7 +90,7 @@
           "measurement": "ByCountry",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT \"Confirmed\"   FROM \"autogen\".\"Cases\" WHERE (\"Country\" = 'Australia') AND $timeFilter AND (\"State\" =~ /^$state$/)",
+          "query": "SELECT max(\"Confirmed\") as Confirmed   FROM \"autogen\".\"Australia\" WHERE (\"Country\" = 'Australia') AND $timeFilter AND (\"State\" =~ /^$state$/)  GROUP BY time(24h)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -707,6 +707,7 @@
     "list": [{
       "allValue": null,
       "current": {
+        "$$hashKey": "object:51",
         "selected": true,
         "text": "New South Wales",
         "value": "New South Wales"
@@ -720,41 +721,49 @@
       "multi": false,
       "name": "state",
       "options": [{
+          "$$hashKey": "object:50",
           "selected": false,
           "text": "Australian Capital Territory",
           "value": "Australian Capital Territory"
         },
         {
+          "$$hashKey": "object:51",
           "selected": true,
           "text": "New South Wales",
           "value": "New South Wales"
         },
         {
+          "$$hashKey": "object:52",
           "selected": false,
           "text": "Northern Territory",
           "value": "Northern Territory"
         },
         {
+          "$$hashKey": "object:53",
           "selected": false,
           "text": "Queensland",
           "value": "Queensland"
         },
         {
+          "$$hashKey": "object:54",
           "selected": false,
           "text": "South Australia",
           "value": "South Australia"
         },
         {
+          "$$hashKey": "object:55",
           "selected": false,
           "text": "Tasmania",
           "value": "Tasmania"
         },
         {
+          "$$hashKey": "object:56",
           "selected": false,
           "text": "Victoria",
           "value": "Victoria"
         },
         {
+          "$$hashKey": "object:57",
           "selected": false,
           "text": "Western Australia",
           "value": "Western Australia"
@@ -796,5 +805,5 @@
   "variables": {
     "list": []
   },
-  "version": 5
+  "version": 7
 }

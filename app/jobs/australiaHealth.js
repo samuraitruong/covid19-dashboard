@@ -5,20 +5,16 @@ const australiaMeasurement = "Australia";
 const logger = require("../logger");
 const util = require("../util");
 
-const toNumber = (stringNumber) => {
-  stringNumber = stringNumber.replace(",", "");
-  return parseInt(stringNumber, 10) || 0;
-}
 const wikiDataSource = async () => {
   const {
     data
   } = await axios.get("https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Australia");
   const $ = cheerio.load(data)
   const tables = $(".wikitable").toArray();
-  $(tables[1]).find("sup").toArray().forEach(x => {
+  $(tables[2]).find("sup").toArray().forEach(x => {
     $(x).remove()
   })
-  const rows = $("tbody tr", tables[1]).toArray();
+  const rows = $("tbody tr", tables[2]).toArray();
   const headers = $("th", rows[0]).toArray().map((th) => {
     return $(th).text().trim()
   })
@@ -27,17 +23,17 @@ const wikiDataSource = async () => {
     const tds = $("td", tr).toArray()
     const item = {
       Date: $(tds[0]).text().trim(),
-      NSW: toNumber($(tds[1]).text().trim()),
-      QLD: toNumber($(tds[3]).text().trim()),
-      VIC: toNumber($(tds[5]).text().trim()),
-      SA: toNumber($(tds[7]).text().trim()),
-      WA: toNumber($(tds[9]).text().trim()),
-      TAS: toNumber($(tds[11]).text().trim()),
-      ACT: toNumber($(tds[13]).text().trim()),
-      NT: toNumber($(tds[15]).text().trim()),
-      Total: toNumber($(tds[17]).text().trim()),
-      NewCases: toNumber($(tds[18]).text().trim()),
-      Growth: $(tds[19]).text().trim()
+      NSW: util.toNumber($(tds[1]).text().trim()),
+      QLD: util.toNumber($(tds[2]).text().trim()),
+      VIC: util.toNumber($(tds[3]).text().trim()),
+      SA: util.toNumber($(tds[4]).text().trim()),
+      WA: util.toNumber($(tds[5]).text().trim()),
+      TAS: util.toNumber($(tds[6]).text().trim()),
+      ACT: util.toNumber($(tds[7]).text().trim()),
+      NT: util.toNumber($(tds[8]).text().trim()),
+      Total: util.toNumber($(tds[9]).text().trim()),
+      NewCases: util.toNumber($(tds[10]).text().trim()),
+      Growth: $(tds[11]).text().trim()
     }
 
     return item;
@@ -83,7 +79,7 @@ const normalizeData = (data) => {
 
   const getItem = (item, state) => {
     return {
-      Date: item.Date,
+      Date: item.Date || item.index,
       State: stateMappings[state] || 'na',
       Confirmed: item[state]
     }
@@ -96,13 +92,15 @@ const normalizeData = (data) => {
   });
   return list;
 }
-const writeDataToClient = async (client, data, timestamp) => {
-  logger.info("Writing Australia data to InfluxDB")
+const writeDataToClient = async (client, data, measurement, timestamp) => {
+  logger.info("Writing Australia data to InfluxDB :%s", measurement, {
+    measurement
+  })
   const points = data.map(x => {
-    timestamp = timestamp || util.momentToTimestamp(moment(x.Date, "DD MMM YYYY"));
+    const newTs = timestamp || util.momentToTimestamp(moment(x.Date, ["DD MMMM", "DD MMM YYYY", "YYYY-MM-DD"]));
 
     return {
-      measurement: australiaMeasurement,
+      measurement: measurement || australiaMeasurement,
       tags: {
         Country: "Australia",
         CountryCode: "AU",
@@ -111,30 +109,52 @@ const writeDataToClient = async (client, data, timestamp) => {
       fields: {
         ...x,
       },
-      timestamp
+      timestamp: newTs
     }
   });
   try {
     await client.writePoints(points);
-    logger.info('AustraliaHealth Job FINISHED ...');
+    logger.info('AustraliaHealth Job write measurement successful: %s', measurement, {
+      measurement
+    });
   } catch (err) {
     logger.error("AustraliaHealth Job: Error writing to influxDB %j", err.message || err, {
       errorMessage: err.message,
-      errorStack: err.stack
+      errorStack: err.stack,
+      measurement
     });
   }
 }
+const getDataFromGuadian = async () => {
+  //https://interactive.guim.co.uk/embed/iframeable/2019/01/reusable-stacked-bar-chart-v6/html/index.html?key=australian-covid-cases-2020&location=yacht-charter-data
+  const {
+    data
+  } = await axios.get("https://interactive.guim.co.uk/yacht-charter-data/australian-covid-cases-2020.json");
 
+  const res = await axios.get("https://interactive.guim.co.uk/yacht-charter-data/australian-daily-covid-cases-2020.json");
+  return {
+    total: normalizeData(data.sheets.data),
+    daily: normalizeData(res.data.sheets.data)
+  }
+
+}
 const australiaJob = async (client) => {
   try {
     logger.info("Australia Job started")
     const wikiData = await wikiDataSource();
     const transformedData = normalizeData(wikiData);
     // await client.dropMeasurement(australiaMeasurement);
-    await writeDataToClient(client, transformedData)
+    // await client.dropMeasurement("australian-wikipedia-sources");
+    await writeDataToClient(client, transformedData, australiaMeasurement)
+    await writeDataToClient(client, transformedData, "australian-wikipedia-sources");
+
+    const source = await getDataFromGuadian();
+    await writeDataToClient(client, source.total, australiaMeasurement);
+    await writeDataToClient(client, source.total, "australian-covid-cases-2020");
+    await writeDataToClient(client, source.daily, "australian-daily-covid-cases-2020");
 
     const healthData = await nswDataSource();
-    await writeDataToClient(client, healthData.states, healthData.timestamp);
+    await writeDataToClient(client, healthData.states, australiaMeasurement, healthData.timestamp);
     logger.info("Australia job finished")
   } catch (err) {
 

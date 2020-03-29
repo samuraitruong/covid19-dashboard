@@ -156,7 +156,7 @@ const writeChartData = async (client, charts, country) => {
     logger.info("writing summary worldometer chart data : %s %s", item.key, country);
     const points = [];
     item.data.categories.forEach((date, index) => {
-      const timestamp = moment(date, "MMM DD").unix() * 1000000000
+      const timestamp = util.momentToTimestamp(moment(date, "MMM DD"));
       points.push({
         measurement: item.key,
         tags: {
