@@ -3,6 +3,8 @@ const CSSEGISandDataJob = require("./jobs/CSSEGISandData");
 const worldometerJob = require("./jobs/worldometers");
 const australiaJob = require("./jobs/australiaHealth")
 const infogramJob = require("./jobs/infogram");
+const CronJob = require('cron').CronJob;
+
 
 const client = require("./client");
 const logger = require("./logger");
@@ -39,18 +41,18 @@ const logger = require("./logger");
     await australiaJob(client);
 
   }
-  await jobTaks();
-
   const scheduleCron = process.env.SCHEDULE_CRON || '* */1 * * *';
+
+  await jobTaks();
   logger.info("Setup job schedule running by cron: %s", scheduleCron)
-  const job = schedule.scheduleJob(scheduleCron,
-    async () => {
-      try {
-        logger.info('---- Scheduler started ----');
-        await jobTaks();
-        logger.info('---- Scheduler finished ----');
-      } catch (err) {
-        logger.info("Job runner error %j", err)
-      }
-    });
+  var job = new CronJob(scheduleCron, () => {
+    try {
+      logger.info('---- Scheduler started ----');
+      await jobTaks();
+      logger.info('---- Scheduler finished ----');
+    } catch (err) {
+      logger.info("Job runner error %j", err)
+    }
+  }, null, true, 'America/Los_Angeles');
+  job.start();
 })();
