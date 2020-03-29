@@ -14,7 +14,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1585482818322,
+  "iteration": 1585519797075,
   "links": [],
   "panels": [{
       "datasource": null,
@@ -172,7 +172,7 @@
         "measurement": "australian-covid-cases-2020",
         "orderByTime": "ASC",
         "policy": "default",
-        "query": "SELECT last(\"Confirmed\") FROM \"Australia\" Where  State != 'na' GROUP By State ",
+        "query": "SELECT max(\"Confirmed\") FROM \"Australia\" Where  State != 'na' GROUP By State ",
         "rawQuery": true,
         "refId": "A",
         "resultFormat": "time_series",
@@ -989,5 +989,5 @@
   "variables": {
     "list": []
   },
-  "version": 9
+  "version": 12
 }

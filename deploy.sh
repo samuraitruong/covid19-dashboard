@@ -30,3 +30,6 @@ docker restart grafana
 
 echo "Clean up docker images"
 docker image prune --all --force
+
+docker volume rm $(docker volume ls -qf dangling=true)
+

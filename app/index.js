@@ -36,7 +36,7 @@ const logger = require("./logger");
   const jobTaks = async () => {
     await infogramJob(client);
     await CSSEGISandDataJob(client);
-    await await worldometerJob(client);
+    await worldometerJob(client);
     await australiaJob(client);
 
   }
