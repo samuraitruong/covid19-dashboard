@@ -3,6 +3,7 @@ const worldometerJob = require("./jobs/worldometers");
 const australiaJob = require("./jobs/australiaHealth")
 const infogramJob = require("./jobs/infogram");
 const ecdc = require("./jobs/ecdc");
+const nytimesJob = require("./jobs/nytimes");
 
 const CronJob = require('cron').CronJob;
 
@@ -40,7 +41,8 @@ const logger = require("./logger");
     // await CSSEGISandDataJob(client);
     // await worldometerJob(client);
     // await australiaJob(client);
-    await ecdc(client);
+    // await ecdc(client);
+    await nytimesJob(client);
   }
   const scheduleCron = process.env.SCHEDULE_CRON || '* */1 * * *';
 

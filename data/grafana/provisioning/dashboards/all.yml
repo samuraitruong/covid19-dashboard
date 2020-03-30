@@ -5,9 +5,16 @@
   options:
     folder: "/var/lib/grafana/dashboards/australia"
 
-- name: "default" # name of this dashboard configuration (not dashboard itself)
+- name: "bycountry" # name of this dashboard configuration (not dashboard itself)
   org_id: 1 # id of the org to hold the dashboard
-  folder: "" # name of the folder to put the dashboard (http://docs.grafana.org/v5.0/reference/dashboard_folders/)
+  folder: "By Country" # name of the folder to put the dashboard (http://docs.grafana.org/v5.0/reference/dashboard_folders/)
   type: "file" # type of dashboard description (json files)
   options:
-    folder: "/var/lib/grafana/dashboards"
+    folder: "/var/lib/grafana/dashboards/by-country"
+
+- name: "world" # name of this dashboard configuration (not dashboard itself)
+  org_id: 1 # id of the org to hold the dashboard
+  folder: "World" # name of the folder to put the dashboard (http://docs.grafana.org/v5.0/reference/dashboard_folders/)
+  type: "file" # type of dashboard description (json files)
+  options:
+    folder: "/var/lib/grafana/dashboards/world"
