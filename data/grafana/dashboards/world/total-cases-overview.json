@@ -1,24 +1,21 @@
 {
   "annotations": {
-    "list": [
-      {
-        "$$hashKey": "object:1247",
-        "builtIn": 1,
-        "datasource": "-- Grafana --",
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
+    "list": [{
+      "$$hashKey": "object:1247",
+      "builtIn": 1,
+      "datasource": "-- Grafana --",
+      "enable": true,
+      "hide": true,
+      "iconColor": "rgba(0, 211, 255, 1)",
+      "name": "Annotations & Alerts",
+      "type": "dashboard"
+    }]
   },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
   "links": [],
-  "panels": [
-    {
+  "panels": [{
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -58,45 +55,41 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Active Cases",
-          "groupBy": [
-            {
+      "targets": [{
+        "alias": "Active Cases",
+        "groupBy": [{
+            "params": [
+              "24h"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "graph-active-cases-total",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
               "params": [
-                "24h"
+                "Value"
               ],
-              "type": "time"
+              "type": "field"
             },
             {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
+              "params": [],
+              "type": "max"
             }
-          ],
-          "measurement": "graph-active-cases-total",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
+          ]
+        ],
+        "tags": []
+      }],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
@@ -115,8 +108,7 @@
         "show": true,
         "values": []
       },
-      "yaxes": [
-        {
+      "yaxes": [{
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -174,54 +166,48 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "Deaths",
-          "color": "rgb(235, 6, 31)"
-        }
-      ],
+      "seriesOverrides": [{
+        "alias": "Deaths",
+        "color": "rgb(235, 6, 31)"
+      }],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Deaths",
-          "groupBy": [
-            {
+      "targets": [{
+        "alias": "Deaths",
+        "groupBy": [{
+            "params": [
+              "24h"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "coronavirus-deaths-linear",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
               "params": [
-                "24h"
+                "Value"
               ],
-              "type": "time"
+              "type": "field"
             },
             {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
+              "params": [],
+              "type": "max"
             }
-          ],
-          "measurement": "coronavirus-deaths-linear",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
+          ]
+        ],
+        "tags": []
+      }],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
@@ -240,8 +226,7 @@
         "show": true,
         "values": []
       },
-      "yaxes": [
-        {
+      "yaxes": [{
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -299,56 +284,50 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "Confirmed Cases",
-          "color": "#FF780A"
-        }
-      ],
+      "seriesOverrides": [{
+        "alias": "Confirmed Cases",
+        "color": "#FF780A"
+      }],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Confirmed Cases",
-          "groupBy": [
-            {
+      "targets": [{
+        "alias": "Confirmed Cases",
+        "groupBy": [{
+            "params": [
+              "24h"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "coronavirus-cases-linear",
+        "orderByTime": "ASC",
+        "policy": "autogen",
+        "query": "SELECT max(\"Value\") FROM \"autogen\".\"coronavirus-cases-linear\" WHERE $timeFilter GROUP BY time(24h)",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
               "params": [
-                "24h"
+                "Value"
               ],
-              "type": "time"
+              "type": "field"
             },
             {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
+              "params": [],
+              "type": "max"
             }
-          ],
-          "measurement": "coronavirus-cases-linear",
-          "orderByTime": "ASC",
-          "policy": "autogen",
-          "query": "SELECT max(\"Value\") FROM \"autogen\".\"coronavirus-cases-linear\" WHERE $timeFilter GROUP BY time(24h)",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
+          ]
+        ],
+        "tags": []
+      }],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
@@ -367,8 +346,7 @@
         "show": true,
         "values": []
       },
-      "yaxes": [
-        {
+      "yaxes": [{
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -426,61 +404,53 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "$$hashKey": "object:1450",
-          "alias": "Serious Cases",
-          "color": "#C4162A"
-        }
-      ],
+      "seriesOverrides": [{
+        "$$hashKey": "object:1450",
+        "alias": "Serious Cases",
+        "color": "#C4162A"
+      }],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Serious Cases",
-          "groupBy": [
-            {
+      "targets": [{
+        "alias": "Serious Cases",
+        "groupBy": [{
+            "params": [
+              "24h"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "total-serious-linear",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
               "params": [
-                "24h"
+                "Value"
               ],
-              "type": "time"
+              "type": "field"
             },
             {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "total-serious-linear",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "Country",
-              "operator": "=",
-              "value": "Global"
+              "params": [],
+              "type": "max"
             }
           ]
-        }
-      ],
+        ],
+        "tags": [{
+          "key": "Country",
+          "operator": "=",
+          "value": "Global"
+        }]
+      }],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
@@ -499,8 +469,7 @@
         "show": true,
         "values": []
       },
-      "yaxes": [
-        {
+      "yaxes": [{
           "$$hashKey": "object:1310",
           "format": "short",
           "label": null,
@@ -550,10 +519,10 @@
     ]
   },
   "timezone": "",
-  "title": "Global",
+  "title": "Work Overview Status",
   "uid": "uD5D4trZk",
   "variables": {
     "list": []
   },
-  "version": 5
+  "version": 1
 }

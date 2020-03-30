@@ -37,11 +37,11 @@ const logger = require("./logger");
     }
   } while (true);
   const jobTaks = async () => {
-    // await infogramJob(client);
-    // await CSSEGISandDataJob(client);
-    // await worldometerJob(client);
-    // await australiaJob(client);
-    // await ecdc(client);
+    await infogramJob(client);
+    await CSSEGISandDataJob(client);
+    await worldometerJob(client);
+    await australiaJob(client);
+    await ecdc(client);
     await nytimesJob(client);
   }
   const scheduleCron = process.env.SCHEDULE_CRON || '* */1 * * *';
