@@ -1,25 +1,22 @@
 {
   "annotations": {
-    "list": [
-      {
-        "$$hashKey": "object:451",
-        "builtIn": 1,
-        "datasource": "-- Grafana --",
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
+    "list": [{
+      "$$hashKey": "object:451",
+      "builtIn": 1,
+      "datasource": "-- Grafana --",
+      "enable": true,
+      "hide": true,
+      "iconColor": "rgba(0, 211, 255, 1)",
+      "name": "Annotations & Alerts",
+      "type": "dashboard"
+    }]
   },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1585346373334,
+  "iteration": 1585546758546,
   "links": [],
-  "panels": [
-    {
+  "panels": [{
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -56,8 +53,7 @@
       "pointradius": 2,
       "points": true,
       "renderer": "flot",
-      "seriesOverrides": [
-        {
+      "seriesOverrides": [{
           "alias": "Deaths",
           "color": "#C4162A",
           "lines": true,
@@ -75,11 +71,9 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
+      "targets": [{
           "alias": "Confirmed",
-          "groupBy": [
-            {
+          "groupBy": [{
               "params": [
                 "$__interval"
               ],
@@ -101,27 +95,22 @@
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
-            [
-              {
-                "params": [
-                  "Confirmed"
-                ],
-                "type": "field"
-              }
-            ]
+            [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            }]
           ],
-          "tags": [
-            {
-              "key": "Country",
-              "operator": "=~",
-              "value": "/^$country_name$/"
-            }
-          ]
+          "tags": [{
+            "key": "Country",
+            "operator": "=~",
+            "value": "/^$country_name$/"
+          }]
         },
         {
           "alias": "Recovered",
-          "groupBy": [
-            {
+          "groupBy": [{
               "params": [
                 "$__interval"
               ],
@@ -143,27 +132,22 @@
           "refId": "B",
           "resultFormat": "time_series",
           "select": [
-            [
-              {
-                "params": [
-                  "Confirmed"
-                ],
-                "type": "field"
-              }
-            ]
+            [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            }]
           ],
-          "tags": [
-            {
-              "key": "Country",
-              "operator": "=",
-              "value": "US"
-            }
-          ]
+          "tags": [{
+            "key": "Country",
+            "operator": "=",
+            "value": "US"
+          }]
         },
         {
           "alias": "Deaths",
-          "groupBy": [
-            {
+          "groupBy": [{
               "params": [
                 "$__interval"
               ],
@@ -185,22 +169,18 @@
           "refId": "C",
           "resultFormat": "time_series",
           "select": [
-            [
-              {
-                "params": [
-                  "Confirmed"
-                ],
-                "type": "field"
-              }
-            ]
+            [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            }]
           ],
-          "tags": [
-            {
-              "key": "Country",
-              "operator": "=",
-              "value": "US"
-            }
-          ]
+          "tags": [{
+            "key": "Country",
+            "operator": "=",
+            "value": "US"
+          }]
         }
       ],
       "thresholds": [],
@@ -221,8 +201,7 @@
         "show": true,
         "values": []
       },
-      "yaxes": [
-        {
+      "yaxes": [{
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -263,8 +242,7 @@
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
-              "steps": [
-                {
+              "steps": [{
                   "color": "green",
                   "value": null
                 },
@@ -283,53 +261,47 @@
         "orientation": "auto"
       },
       "pluginVersion": "6.7.1",
-      "targets": [
-        {
-          "alias": "",
-          "groupBy": [
-            {
+      "targets": [{
+        "alias": "",
+        "groupBy": [{
+            "params": [
+              "$__interval"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "ByCountry",
+        "orderByTime": "ASC",
+        "policy": "autogen",
+        "query": "SELECT max(\"Confirmed\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter ",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
               "params": [
-                "$__interval"
+                "Confirmed"
               ],
-              "type": "time"
+              "type": "field"
             },
             {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "ByCountry",
-          "orderByTime": "ASC",
-          "policy": "autogen",
-          "query": "SELECT max(\"Confirmed\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter ",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Confirmed"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "max"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "Country",
-              "operator": "=~",
-              "value": "/^$country_name$/"
+              "params": [],
+              "type": "max"
             }
           ]
-        }
-      ],
+        ],
+        "tags": [{
+          "key": "Country",
+          "operator": "=~",
+          "value": "/^$country_name$/"
+        }]
+      }],
       "timeFrom": null,
       "timeShift": null,
       "title": "Confirmed",
@@ -369,11 +341,9 @@
       "nullPointMode": "connected",
       "pieType": "pie",
       "strokeWidth": 1,
-      "targets": [
-        {
+      "targets": [{
           "alias": "Recovered",
-          "groupBy": [
-            {
+          "groupBy": [{
               "params": [
                 "$__interval"
               ],
@@ -394,8 +364,7 @@
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
-            [
-              {
+            [{
                 "params": [
                   "Recovered"
                 ],
@@ -407,18 +376,15 @@
               }
             ]
           ],
-          "tags": [
-            {
-              "key": "Country",
-              "operator": "=~",
-              "value": "/^$country_name$/"
-            }
-          ]
+          "tags": [{
+            "key": "Country",
+            "operator": "=~",
+            "value": "/^$country_name$/"
+          }]
         },
         {
           "alias": "Deaths",
-          "groupBy": [
-            {
+          "groupBy": [{
               "params": [
                 "$__interval"
               ],
@@ -439,8 +405,7 @@
           "refId": "B",
           "resultFormat": "time_series",
           "select": [
-            [
-              {
+            [{
                 "params": [
                   "Deaths"
                 ],
@@ -452,13 +417,11 @@
               }
             ]
           ],
-          "tags": [
-            {
-              "key": "Country",
-              "operator": "=~",
-              "value": "/^$country_name$/"
-            }
-          ]
+          "tags": [{
+            "key": "Country",
+            "operator": "=~",
+            "value": "/^$country_name$/"
+          }]
         }
       ],
       "timeFrom": null,
@@ -485,20 +448,17 @@
             "mean"
           ],
           "defaults": {
-            "mappings": [
-              {
-                "id": 0,
-                "op": "=",
-                "text": "N/A",
-                "type": 1,
-                "value": "null"
-              }
-            ],
+            "mappings": [{
+              "id": 0,
+              "op": "=",
+              "text": "N/A",
+              "type": 1,
+              "value": "null"
+            }],
             "nullValueMode": "connected",
             "thresholds": {
               "mode": "absolute",
-              "steps": [
-                {
+              "steps": [{
                   "color": "green",
                   "value": null
                 },
@@ -518,49 +478,42 @@
         "orientation": "horizontal"
       },
       "pluginVersion": "6.7.1",
-      "targets": [
-        {
-          "alias": "Recovered",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "ByCountry",
-          "orderByTime": "ASC",
-          "policy": "autogen",
-          "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "Recovered"
-                ],
-                "type": "field"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "Country",
-              "operator": "=",
-              "value": "US"
-            }
-          ]
-        }
-      ],
+      "targets": [{
+        "alias": "Recovered",
+        "groupBy": [{
+            "params": [
+              "$__interval"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "measurement": "ByCountry",
+        "orderByTime": "ASC",
+        "policy": "autogen",
+        "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
+            "params": [
+              "Recovered"
+            ],
+            "type": "field"
+          }]
+        ],
+        "tags": [{
+          "key": "Country",
+          "operator": "=",
+          "value": "US"
+        }]
+      }],
       "timeFrom": null,
       "timeShift": null,
       "title": "Recovered",
@@ -585,8 +538,7 @@
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
-              "steps": [
-                {
+              "steps": [{
                   "color": "red",
                   "value": null
                 },
@@ -605,46 +557,42 @@
         "orientation": "auto"
       },
       "pluginVersion": "6.7.1",
-      "targets": [
-        {
-          "alias": "Deaths",
-          "groupBy": [
-            {
+      "targets": [{
+        "alias": "Deaths",
+        "groupBy": [{
+            "params": [
+              "$__interval"
+            ],
+            "type": "time"
+          },
+          {
+            "params": [
+              "null"
+            ],
+            "type": "fill"
+          }
+        ],
+        "orderByTime": "ASC",
+        "policy": "default",
+        "query": "SELECT max(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter",
+        "rawQuery": true,
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+          [{
               "params": [
-                "$__interval"
+                "value"
               ],
-              "type": "time"
+              "type": "field"
             },
             {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
+              "params": [],
+              "type": "mean"
             }
-          ],
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT max(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter",
-          "rawQuery": true,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
+          ]
+        ],
+        "tags": []
+      }],
       "timeFrom": null,
       "timeShift": null,
       "title": "Deaths",
@@ -685,18 +633,20 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [
-        {
+      "seriesOverrides": [{
+          "$$hashKey": "object:122",
           "alias": "Confirmed",
           "color": "#FF9830",
           "linewidth": 6
         },
         {
+          "$$hashKey": "object:123",
           "alias": "Deaths",
           "bars": true,
           "color": "#C4162A"
         },
         {
+          "$$hashKey": "object:124",
           "alias": "Recovered",
           "color": "#37872D"
         }
@@ -704,11 +654,9 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [
-        {
+      "targets": [{
           "alias": "Confirmed",
-          "groupBy": [
-            {
+          "groupBy": [{
               "params": [
                 "$__interval"
               ],
@@ -724,40 +672,33 @@
           "measurement": "ByCountry",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT max(\"Confirmed\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter GROUP BY time(24h)",
+          "query": "SELECT max(\"Value\") FROM \"autogen\".\"graph-cases-daily\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter GROUP BY time(24h)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
-            [
-              {
-                "params": [
-                  "Confirmed"
-                ],
-                "type": "field"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "Confirmed"
-                ],
-                "type": "field"
-              }
-            ]
+            [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            }],
+            [{
+              "params": [
+                "Confirmed"
+              ],
+              "type": "field"
+            }]
           ],
-          "tags": [
-            {
-              "key": "Country",
-              "operator": "=",
-              "value": "US"
-            }
-          ]
+          "tags": [{
+            "key": "Country",
+            "operator": "=",
+            "value": "US"
+          }]
         },
         {
           "alias": "Recovered",
-          "groupBy": [
-            {
+          "groupBy": [{
               "params": [
                 "$__interval"
               ],
@@ -770,15 +711,15 @@
               "type": "fill"
             }
           ],
+          "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter GROUP BY time(24h)",
+          "query": "SELECT last(\"Value\") FROM \"autogen\".\"graph-deaths-daily\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter GROUP BY time(24h)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
           "select": [
-            [
-              {
+            [{
                 "params": [
                   "value"
                 ],
@@ -794,8 +735,7 @@
         },
         {
           "alias": "Deaths",
-          "groupBy": [
-            {
+          "groupBy": [{
               "params": [
                 "$__interval"
               ],
@@ -808,6 +748,7 @@
               "type": "fill"
             }
           ],
+          "hide": true,
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT max(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter GROUP BY time(24)",
@@ -815,8 +756,7 @@
           "refId": "C",
           "resultFormat": "time_series",
           "select": [
-            [
-              {
+            [{
                 "params": [
                   "value"
                 ],
@@ -835,7 +775,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "$tag_Country daily cases",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -849,8 +789,8 @@
         "show": true,
         "values": []
       },
-      "yaxes": [
-        {
+      "yaxes": [{
+          "$$hashKey": "object:153",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -859,6 +799,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:154",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -879,35 +820,33 @@
     "Country"
   ],
   "templating": {
-    "list": [
-      {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "US",
-          "value": "US"
-        },
-        "datasource": "InfluxDB",
-        "definition": "SELECT distinct(\"Country\")  FROM \"covid19\".\"autogen\".\"ByCountry\"",
-        "hide": 1,
-        "includeAll": false,
-        "index": -1,
-        "label": "Select A country",
-        "multi": false,
-        "name": "country_name",
-        "options": [],
-        "query": "SELECT distinct(\"Country\")  FROM \"covid19\".\"autogen\".\"ByCountry\"",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "Country",
-        "type": "query",
-        "useTags": false
-      }
-    ]
+    "list": [{
+      "allValue": null,
+      "current": {
+        "selected": true,
+        "text": "Afghanistan",
+        "value": "Afghanistan"
+      },
+      "datasource": "InfluxDB",
+      "definition": "SELECT distinct(\"Country\")  FROM \"covid19\".\"autogen\".\"ByCountry\"",
+      "hide": 1,
+      "includeAll": false,
+      "index": -1,
+      "label": "Select A country",
+      "multi": false,
+      "name": "country_name",
+      "options": [],
+      "query": "SELECT distinct(\"Country\")  FROM \"covid19\".\"autogen\".\"ByCountry\"",
+      "refresh": 1,
+      "regex": "",
+      "skipUrlSync": false,
+      "sort": 1,
+      "tagValuesQuery": "",
+      "tags": [],
+      "tagsQuery": "Country",
+      "type": "query",
+      "useTags": false
+    }]
   },
   "time": {
     "from": "2020-01-15T13:00:00.000Z",
@@ -933,5 +872,5 @@
   "variables": {
     "list": []
   },
-  "version": 2
+  "version": 3
 }

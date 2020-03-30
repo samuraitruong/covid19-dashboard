@@ -39,7 +39,7 @@ const writeDataToClient = async (client, data, measurement, country) => {
     await client.writePoints(points);
     logger.info('CSSEGISandDataJob FINISHED ...', measurement);
   } catch (err) {
-    logger.info("Error writing to influxDB", err.message || err);
+    logger.error("Error writing to influxDB", err.message || err);
   }
 }
 const CSSEGISandDataJob = async (client) => {
@@ -60,7 +60,7 @@ const CSSEGISandDataJob = async (client) => {
     await writeDataToClient(client, combiedData, "Cases");
 
   } catch (err) {
-    logger.info("CSSEGISandDataJob Error occured: ", err)
+    logger.error("CSSEGISandDataJob Error occured: ", err)
   }
 
 }

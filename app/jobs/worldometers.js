@@ -116,7 +116,7 @@ const writeDataToClient = async (client, data, measurement, timestamp) => {
     await client.writePoints(points);
     logger.info('worldometer FINISHED ... %s', measurement);
   } catch (err) {
-    logger.info("worldometer Error writing to influxDB  %j", err);
+    logger.error("worldometer Error writing to influxDB  %j", err);
   }
 }
 
@@ -142,7 +142,7 @@ const writeRank = async (client, data) => {
     await client.writePoints(points);
     logger.info('worldometer successful write rank data ...');
   } catch (err) {
-    logger.info("worldometer Error writing rank data to influxDB %j", err);
+    logger.error("worldometer Error writing rank data to influxDB %j", err);
   }
 }
 /**
@@ -242,7 +242,7 @@ const worldometerJob = async (client) => {
     logger.info("worldometerJob finished");
 
   } catch (err) {
-    logger.info("worldometerJob error %j", err)
+    logger.error("worldometerJob error %j", err)
   }
 }
 module.exports = worldometerJob;

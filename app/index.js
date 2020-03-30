@@ -2,6 +2,8 @@ const CSSEGISandDataJob = require("./jobs/CSSEGISandData");
 const worldometerJob = require("./jobs/worldometers");
 const australiaJob = require("./jobs/australiaHealth")
 const infogramJob = require("./jobs/infogram");
+const ecdc = require("./jobs/ecdc");
+
 const CronJob = require('cron').CronJob;
 
 
@@ -34,11 +36,11 @@ const logger = require("./logger");
     }
   } while (true);
   const jobTaks = async () => {
-    await infogramJob(client);
-    await CSSEGISandDataJob(client);
-    await worldometerJob(client);
-    await australiaJob(client);
-
+    // await infogramJob(client);
+    // await CSSEGISandDataJob(client);
+    // await worldometerJob(client);
+    // await australiaJob(client);
+    await ecdc(client);
   }
   const scheduleCron = process.env.SCHEDULE_CRON || '* */1 * * *';
 
@@ -50,7 +52,7 @@ const logger = require("./logger");
       await jobTaks();
       logger.info('---- Scheduler finished ----');
     } catch (err) {
-      logger.info("Job runner error %s", err.message || err, {
+      logger.error("Job runner error %s", err.message || err, {
         error: error.stack
       })
     }
