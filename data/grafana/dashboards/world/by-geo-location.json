@@ -1,21 +1,24 @@
 {
   "annotations": {
-    "list": [{
-      "$$hashKey": "object:149",
-      "builtIn": 1,
-      "datasource": "-- Grafana --",
-      "enable": true,
-      "hide": true,
-      "iconColor": "rgba(0, 211, 255, 1)",
-      "name": "Annotations & Alerts",
-      "type": "dashboard"
-    }]
+    "list": [
+      {
+        "$$hashKey": "object:149",
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
   "links": [],
-  "panels": [{
+  "panels": [
+    {
       "circleMaxSize": 30,
       "circleMinSize": 2,
       "colors": [
@@ -62,74 +65,68 @@
         "metricField": "metric",
         "queryType": "geohash"
       },
-      "targets": [{
-        "alias": "Count",
-        "groupBy": [{
-            "params": [
-              "1d"
-            ],
-            "type": "time"
-          },
-          {
-            "params": [
-              "0"
-            ],
-            "type": "fill"
-          }
-        ],
-        "hide": false,
-        "measurement": "Cases",
-        "orderByTime": "ASC",
-        "policy": "autogen",
-        "query": "SELECT max(Confirmed) as Count, geohash as geohash ,geoname as geoname FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country , geohash",
-        "rawQuery": true,
-        "refId": "A",
-        "resultFormat": "table",
-        "select": [
-          [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
+      "targets": [
+        {
+          "alias": "Count",
+          "groupBy": [
+            {
+              "params": ["1d"],
+              "type": "time"
             },
             {
-              "params": [],
-              "type": "max"
-            },
-            {
-              "params": [
-                "Count"
-              ],
-              "type": "alias"
+              "params": ["0"],
+              "type": "fill"
             }
           ],
-          [{
-              "params": [
-                "geohash"
-              ],
-              "type": "field"
+          "hide": false,
+          "measurement": "Cases",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT max(Confirmed) as Count, geohash as geohash ,geoname as geoname FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country , geohash",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": ["Confirmed"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              },
+              {
+                "params": ["Count"],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": ["geohash"],
+                "type": "field"
+              },
+              {
+                "params": ["geohash"],
+                "type": "alias"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "geohash",
+              "operator": "!=",
+              "value": "'0'"
             },
             {
-              "params": [
-                "geohash"
-              ],
-              "type": "alias"
+              "condition": "AND",
+              "key": "Country",
+              "operator": "=",
+              "value": "Austria"
             }
           ]
-        ],
-        "tags": [{
-            "key": "geohash",
-            "operator": "!=",
-            "value": "'0'"
-          },
-          {
-            "condition": "AND",
-            "key": "Country",
-            "operator": "=",
-            "value": "Austria"
-          }
-        ]
-      }],
+        }
+      ],
       "thresholds": "10,50,100,1000,2500, 5000, 10000, 20000, 30000, 50000",
       "timeFrom": null,
       "timeShift": null,
@@ -156,7 +153,8 @@
         "col": 2,
         "desc": true
       },
-      "styles": [{
+      "styles": [
+        {
           "$$hashKey": "object:844",
           "alias": "Time",
           "align": "auto",
@@ -169,19 +167,12 @@
           "alias": "Confirmed",
           "align": "auto",
           "colorMode": "value",
-          "colors": [
-            "#FA6400",
-            "#C4162A",
-            "#B877D9"
-          ],
+          "colors": ["#FA6400", "#C4162A", "#B877D9"],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 0,
           "mappingType": 1,
           "pattern": "Count",
-          "thresholds": [
-            "500",
-            " 1000"
-          ],
+          "thresholds": ["500", " 1000"],
           "type": "number",
           "unit": "short"
         },
@@ -197,50 +188,44 @@
           ],
           "decimals": 2,
           "pattern": "/.*/",
-          "thresholds": [
-            "50",
-            " 1000",
-            " 2000"
-          ],
+          "thresholds": ["50", " 1000", " 2000"],
           "type": "number",
           "unit": "short"
         }
       ],
-      "targets": [{
-        "groupBy": [{
-            "params": [
-              "$__interval"
-            ],
-            "type": "time"
-          },
-          {
-            "params": [
-              "null"
-            ],
-            "type": "fill"
-          }
-        ],
-        "orderByTime": "ASC",
-        "policy": "default",
-        "query": "SELECT max(Confirmed) as Count FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country",
-        "rawQuery": true,
-        "refId": "A",
-        "resultFormat": "table",
-        "select": [
-          [{
-              "params": [
-                "value"
-              ],
-              "type": "field"
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
             },
             {
-              "params": [],
-              "type": "mean"
+              "params": ["null"],
+              "type": "fill"
             }
-          ]
-        ],
-        "tags": []
-      }],
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT max(Confirmed) as Count FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": ["value"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
       "timeFrom": null,
       "timeShift": null,
       "title": "Dataset",
@@ -278,5 +263,5 @@
   "variables": {
     "list": []
   },
-  "version": 13
+  "version": 1
 }
