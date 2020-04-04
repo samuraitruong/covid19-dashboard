@@ -66,7 +66,7 @@ const ecdc = async (client) => {
   try {
     const data = await getData();
     await writeToInfluxDB(client, data, "ecdc-geographic-distribution-covid-19-cases-worldwide");
-
+    // console.log(data)
     logger.info("Europa CDC Job finished")
   } catch (err) {
     logger.error("Europa CDC Job error %j", err.message || err, {

@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1585689130387,
+  "iteration": 1585958914466,
   "links": [],
   "panels": [
     {
@@ -260,6 +260,7 @@
             "mean"
           ],
           "defaults": {
+            "decimals": 3,
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
@@ -273,7 +274,8 @@
                   "value": 5000
                 }
               ]
-            }
+            },
+            "unit": "short"
           },
           "overrides": [],
           "values": false
@@ -890,8 +892,9 @@
       {
         "allValue": null,
         "current": {
-          "text": "US",
-          "value": "US"
+          "selected": false,
+          "text": "Netherlands",
+          "value": "Netherlands"
         },
         "datasource": "InfluxDB",
         "definition": "SELECT distinct(\"Country\")  FROM \"covid19\".\"autogen\".\"ByCountry\"",
@@ -939,5 +942,5 @@
   "variables": {
     "list": []
   },
-  "version": 1
+  "version": 2
 }

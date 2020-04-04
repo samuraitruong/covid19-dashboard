@@ -153,7 +153,7 @@ const writeDataToClient = async (client, data, measurement, timestamp) => {
   logger.info("Writing Australia data to InfluxDB :%s", measurement, {
     measurement
   });
-  const points = data.map(x => {
+  const points = data.filter(x =>x.Date).map(x => {
     const newTs =
       timestamp ||
       util.momentToTimestamp(
@@ -213,9 +213,8 @@ const australiaJob = async client => {
     logger.info("Australia Job started");
     const wikiData = await wikiDataSource();
     const transformedData = normalizeData(wikiData);
-    console.log(transformedData);
-    await client.dropMeasurement(australiaMeasurement);
-    await client.dropMeasurement("australian-wikipedia-sources");
+    // await client.dropMeasurement(australiaMeasurement);
+    //await client.dropMeasurement("australian-wikipedia-sources");
     await writeDataToClient(client, transformedData, australiaMeasurement);
     await writeDataToClient(
       client,

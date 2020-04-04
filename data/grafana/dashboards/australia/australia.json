@@ -1,21 +1,24 @@
 {
   "annotations": {
-    "list": [{
-      "builtIn": 1,
-      "datasource": "-- Grafana --",
-      "enable": true,
-      "hide": true,
-      "iconColor": "rgba(0, 211, 255, 1)",
-      "name": "Annotations & Alerts",
-      "type": "dashboard"
-    }]
+    "list": [
+      {
+        "$$hashKey": "object:801",
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
   "links": [],
-  "panels": [{
+  "panels": [
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -52,7 +55,8 @@
       "pointradius": 2,
       "points": true,
       "renderer": "flot",
-      "seriesOverrides": [{
+      "seriesOverrides": [
+        {
           "alias": "Deaths",
           "color": "#C4162A",
           "lines": true,
@@ -70,9 +74,11 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [{
+      "targets": [
+        {
           "alias": "Confirmed",
-          "groupBy": [{
+          "groupBy": [
+            {
               "params": [
                 "$__interval"
               ],
@@ -94,22 +100,27 @@
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
-            [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
-            }]
+            [
+              {
+                "params": [
+                  "Confirmed"
+                ],
+                "type": "field"
+              }
+            ]
           ],
-          "tags": [{
-            "key": "Country",
-            "operator": "=",
-            "value": "Australia"
-          }]
+          "tags": [
+            {
+              "key": "Country",
+              "operator": "=",
+              "value": "Australia"
+            }
+          ]
         },
         {
           "alias": "Recovered",
-          "groupBy": [{
+          "groupBy": [
+            {
               "params": [
                 "$__interval"
               ],
@@ -131,22 +142,27 @@
           "refId": "B",
           "resultFormat": "time_series",
           "select": [
-            [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
-            }]
+            [
+              {
+                "params": [
+                  "Confirmed"
+                ],
+                "type": "field"
+              }
+            ]
           ],
-          "tags": [{
-            "key": "Country",
-            "operator": "=",
-            "value": "Australia"
-          }]
+          "tags": [
+            {
+              "key": "Country",
+              "operator": "=",
+              "value": "Australia"
+            }
+          ]
         },
         {
           "alias": "Deaths",
-          "groupBy": [{
+          "groupBy": [
+            {
               "params": [
                 "$__interval"
               ],
@@ -168,18 +184,22 @@
           "refId": "C",
           "resultFormat": "time_series",
           "select": [
-            [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
-            }]
+            [
+              {
+                "params": [
+                  "Confirmed"
+                ],
+                "type": "field"
+              }
+            ]
           ],
-          "tags": [{
-            "key": "Country",
-            "operator": "=",
-            "value": "Australia"
-          }]
+          "tags": [
+            {
+              "key": "Country",
+              "operator": "=",
+              "value": "Australia"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -200,7 +220,8 @@
         "show": true,
         "values": []
       },
-      "yaxes": [{
+      "yaxes": [
+        {
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -241,7 +262,8 @@
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
-              "steps": [{
+              "steps": [
+                {
                   "color": "green",
                   "value": null
                 },
@@ -260,46 +282,52 @@
         "orientation": "auto"
       },
       "pluginVersion": "6.7.1",
-      "targets": [{
-        "groupBy": [{
-            "params": [
-              "$__interval"
-            ],
-            "type": "time"
-          },
-          {
-            "params": [
-              "null"
-            ],
-            "type": "fill"
-          }
-        ],
-        "measurement": "ByCountry",
-        "orderByTime": "ASC",
-        "policy": "autogen",
-        "query": "SELECT max(\"Confirmed\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter",
-        "rawQuery": true,
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-          [{
+      "targets": [
+        {
+          "groupBy": [
+            {
               "params": [
-                "Confirmed"
+                "$__interval"
               ],
-              "type": "field"
+              "type": "time"
             },
             {
-              "params": [],
-              "type": "max"
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ByCountry",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT max(\"Confirmed\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Confirmed"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Country",
+              "operator": "=",
+              "value": "Australia"
             }
           ]
-        ],
-        "tags": [{
-          "key": "Country",
-          "operator": "=",
-          "value": "Australia"
-        }]
-      }],
+        }
+      ],
       "timeFrom": null,
       "timeShift": null,
       "title": "Confirmed",
@@ -323,17 +351,20 @@
             "mean"
           ],
           "defaults": {
-            "mappings": [{
-              "id": 0,
-              "op": "=",
-              "text": "N/A",
-              "type": 1,
-              "value": "null"
-            }],
+            "mappings": [
+              {
+                "id": 0,
+                "op": "=",
+                "text": "N/A",
+                "type": 1,
+                "value": "null"
+              }
+            ],
             "nullValueMode": "connected",
             "thresholds": {
               "mode": "absolute",
-              "steps": [{
+              "steps": [
+                {
                   "color": "green",
                   "value": null
                 },
@@ -353,42 +384,49 @@
         "orientation": "horizontal"
       },
       "pluginVersion": "6.7.1",
-      "targets": [{
-        "alias": "Recovered",
-        "groupBy": [{
-            "params": [
-              "$__interval"
-            ],
-            "type": "time"
-          },
-          {
-            "params": [
-              "null"
-            ],
-            "type": "fill"
-          }
-        ],
-        "measurement": "ByCountry",
-        "orderByTime": "ASC",
-        "policy": "autogen",
-        "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter",
-        "rawQuery": true,
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-          [{
-            "params": [
-              "Recovered"
-            ],
-            "type": "field"
-          }]
-        ],
-        "tags": [{
-          "key": "Country",
-          "operator": "=",
-          "value": "Australia"
-        }]
-      }],
+      "targets": [
+        {
+          "alias": "Recovered",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ByCountry",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Recovered"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Country",
+              "operator": "=",
+              "value": "Australia"
+            }
+          ]
+        }
+      ],
       "timeFrom": null,
       "timeShift": null,
       "title": "Recovered",
@@ -413,7 +451,8 @@
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
-              "steps": [{
+              "steps": [
+                {
                   "color": "red",
                   "value": null
                 },
@@ -432,42 +471,46 @@
         "orientation": "auto"
       },
       "pluginVersion": "6.7.1",
-      "targets": [{
-        "alias": "Deaths",
-        "groupBy": [{
-            "params": [
-              "$__interval"
-            ],
-            "type": "time"
-          },
-          {
-            "params": [
-              "null"
-            ],
-            "type": "fill"
-          }
-        ],
-        "orderByTime": "ASC",
-        "policy": "default",
-        "query": "SELECT max(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter",
-        "rawQuery": true,
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-          [{
+      "targets": [
+        {
+          "alias": "Deaths",
+          "groupBy": [
+            {
               "params": [
-                "value"
+                "$__interval"
               ],
-              "type": "field"
+              "type": "time"
             },
             {
-              "params": [],
-              "type": "mean"
+              "params": [
+                "null"
+              ],
+              "type": "fill"
             }
-          ]
-        ],
-        "tags": []
-      }],
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT max(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
       "timeFrom": null,
       "timeShift": null,
       "title": "Deaths",
@@ -508,7 +551,8 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [{
+      "seriesOverrides": [
+        {
           "alias": "Confirmed",
           "color": "#FF9830",
           "linewidth": 6
@@ -526,9 +570,11 @@
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
-      "targets": [{
+      "targets": [
+        {
           "alias": "Confirmed",
-          "groupBy": [{
+          "groupBy": [
+            {
               "params": [
                 "$__interval"
               ],
@@ -544,33 +590,40 @@
           "measurement": "ByCountry",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT mean(\"Confirmed\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY time($__interval)",
+          "query": "SELECT mean(\"Value\") FROM \"autogen\".\"graph-cases-daily\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY time(24h)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
-            [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
-            }],
-            [{
-              "params": [
-                "Confirmed"
-              ],
-              "type": "field"
-            }]
+            [
+              {
+                "params": [
+                  "Confirmed"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "Confirmed"
+                ],
+                "type": "field"
+              }
+            ]
           ],
-          "tags": [{
-            "key": "Country",
-            "operator": "=",
-            "value": "Australia"
-          }]
+          "tags": [
+            {
+              "key": "Country",
+              "operator": "=",
+              "value": "Australia"
+            }
+          ]
         },
         {
           "alias": "Recovered",
-          "groupBy": [{
+          "groupBy": [
+            {
               "params": [
                 "$__interval"
               ],
@@ -583,14 +636,16 @@
               "type": "fill"
             }
           ],
+          "hide": true,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY time($__interval)",
+          "query": "SELECT mean(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY time(24h)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
           "select": [
-            [{
+            [
+              {
                 "params": [
                   "value"
                 ],
@@ -606,7 +661,8 @@
         },
         {
           "alias": "Deaths",
-          "groupBy": [{
+          "groupBy": [
+            {
               "params": [
                 "$__interval"
               ],
@@ -619,14 +675,16 @@
               "type": "fill"
             }
           ],
+          "hide": true,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY time($__interval)",
+          "query": "SELECT mean(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY time(24h)",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
           "select": [
-            [{
+            [
+              {
                 "params": [
                   "value"
                 ],
@@ -645,7 +703,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Panel Title",
+      "title": "Daily new case",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -659,7 +717,8 @@
         "show": true,
         "values": []
       },
-      "yaxes": [{
+      "yaxes": [
+        {
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -712,5 +771,5 @@
   "variables": {
     "list": []
   },
-  "version": 19
+  "version": 1
 }

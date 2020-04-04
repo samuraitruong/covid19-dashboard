@@ -2,7 +2,6 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:149",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -13,9 +12,11 @@
       }
     ]
   },
+  "description": "View Worldmap virus distribution",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
+  "id": 67,
   "links": [],
   "panels": [
     {
@@ -70,11 +71,15 @@
           "alias": "Count",
           "groupBy": [
             {
-              "params": ["1d"],
+              "params": [
+                "1d"
+              ],
               "type": "time"
             },
             {
-              "params": ["0"],
+              "params": [
+                "0"
+              ],
               "type": "fill"
             }
           ],
@@ -89,7 +94,9 @@
           "select": [
             [
               {
-                "params": ["Confirmed"],
+                "params": [
+                  "Confirmed"
+                ],
                 "type": "field"
               },
               {
@@ -97,17 +104,23 @@
                 "type": "max"
               },
               {
-                "params": ["Count"],
+                "params": [
+                  "Count"
+                ],
                 "type": "alias"
               }
             ],
             [
               {
-                "params": ["geohash"],
+                "params": [
+                  "geohash"
+                ],
                 "type": "field"
               },
               {
-                "params": ["geohash"],
+                "params": [
+                  "geohash"
+                ],
                 "type": "alias"
               }
             ]
@@ -155,7 +168,6 @@
       },
       "styles": [
         {
-          "$$hashKey": "object:844",
           "alias": "Time",
           "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -163,21 +175,47 @@
           "type": "hidden"
         },
         {
-          "$$hashKey": "object:3188",
           "alias": "Confirmed",
           "align": "auto",
           "colorMode": "value",
-          "colors": ["#FA6400", "#C4162A", "#B877D9"],
+          "colors": [
+            "#FA6400",
+            "#C4162A",
+            "#B877D9"
+          ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 0,
           "mappingType": 1,
           "pattern": "Count",
-          "thresholds": ["500", " 1000"],
+          "thresholds": [
+            "500",
+            " 1000"
+          ],
           "type": "number",
           "unit": "short"
         },
         {
-          "$$hashKey": "object:845",
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": true,
+          "linkTooltip": "View ${__cell}} dashboard",
+          "linkUrl": "/d/vLGPaH9Zk/status-by-country?orgId=1&var-country_name=${__cell}",
+          "mappingType": 1,
+          "pattern": "Country",
+          "sanitize": false,
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
           "alias": "",
           "align": "right",
           "colorMode": "value",
@@ -188,7 +226,11 @@
           ],
           "decimals": 2,
           "pattern": "/.*/",
-          "thresholds": ["50", " 1000", " 2000"],
+          "thresholds": [
+            "50",
+            " 1000",
+            " 2000"
+          ],
           "type": "number",
           "unit": "short"
         }
@@ -197,11 +239,15 @@
         {
           "groupBy": [
             {
-              "params": ["$__interval"],
+              "params": [
+                "$__interval"
+              ],
               "type": "time"
             },
             {
-              "params": ["null"],
+              "params": [
+                "null"
+              ],
               "type": "fill"
             }
           ],
@@ -214,7 +260,9 @@
           "select": [
             [
               {
-                "params": ["value"],
+                "params": [
+                  "value"
+                ],
                 "type": "field"
               },
               {
@@ -228,14 +276,16 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Dataset",
+      "title": "Data table",
       "transform": "table",
       "type": "table"
     }
   ],
   "schemaVersion": 22,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "map"
+  ],
   "templating": {
     "list": []
   },
@@ -263,5 +313,5 @@
   "variables": {
     "list": []
   },
-  "version": 1
+  "version": 3
 }
