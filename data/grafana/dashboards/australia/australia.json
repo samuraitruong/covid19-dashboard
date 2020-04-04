@@ -95,7 +95,7 @@
           "measurement": "ByCountry",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT \"Confirmed\"   FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter",
+          "query": "SELECT max(\"Confirmed\" )  FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY  time(24h)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -137,7 +137,7 @@
           "measurement": "ByCountry",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT \"Recovered\"   FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter",
+          "query": "SELECT max(\"Recovered\")   FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY  time(24h)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -179,7 +179,7 @@
           "measurement": "ByCountry",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT \"Deaths\"   FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter",
+          "query": "SELECT max(\"Deaths\")   FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY  time(24h)",
           "rawQuery": true,
           "refId": "C",
           "resultFormat": "time_series",
@@ -247,7 +247,7 @@
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
+        "w": 4,
         "x": 16,
         "y": 0
       },
@@ -334,11 +334,144 @@
       "type": "stat"
     },
     {
+      "aliasColors": {
+        "Deaths": "#E02F44",
+        "Recovered": "#56A64B"
+      },
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": ""
+      },
+      "datasource": null,
+      "decimals": null,
+      "fontSize": "80%",
+      "format": "short",
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 12,
+      "interval": "",
+      "legend": {
+        "header": "",
+        "percentage": true,
+        "show": true,
+        "values": true
+      },
+      "legendType": "Right side",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "pie",
+      "strokeWidth": 1,
+      "targets": [
+        {
+          "alias": "Deaths",
+          "groupBy": [
+            {
+              "params": [
+                "24h"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ByCountry",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT max(\"Deaths\") as Deaths FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY time(24h) fill(null)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Deaths"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Country",
+              "operator": "=",
+              "value": "Australia"
+            }
+          ]
+        },
+        {
+          "alias": "Recovered",
+          "groupBy": [
+            {
+              "params": [
+                "24h"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ByCountry",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "query": "SELECT max(\"Recovered\") as Deaths FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" = 'Australia') AND $timeFilter GROUP BY time(24h) fill(null)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "Deaths"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "Country",
+              "operator": "=",
+              "value": "Australia"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Recovered/Deaths rate",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
       "cacheTimeout": null,
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
+        "w": 4,
         "x": 16,
         "y": 2
       },
@@ -367,10 +500,6 @@
                 {
                   "color": "green",
                   "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
                 }
               ]
             },
@@ -436,7 +565,7 @@
       "datasource": "InfluxDB",
       "gridPos": {
         "h": 2,
-        "w": 8,
+        "w": 4,
         "x": 16,
         "y": 4
       },
@@ -553,16 +682,19 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:2043",
           "alias": "Confirmed",
           "color": "#FF9830",
           "linewidth": 6
         },
         {
+          "$$hashKey": "object:2044",
           "alias": "Deaths",
           "bars": true,
           "color": "#C4162A"
         },
         {
+          "$$hashKey": "object:2045",
           "alias": "Recovered",
           "color": "#37872D"
         }
@@ -719,6 +851,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:2074",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -727,6 +860,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:2075",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -771,5 +905,5 @@
   "variables": {
     "list": []
   },
-  "version": 1
+  "version": 2
 }

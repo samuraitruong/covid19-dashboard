@@ -293,7 +293,7 @@
     },
     {
       "datasource": null,
-      "description": "Display total global confirmed cases",
+      "description": "Display total global recovered cases",
       "gridPos": {
         "h": 4,
         "w": 2,
@@ -376,7 +376,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Total Case",
+      "title": "Recovered Cases",
       "type": "stat"
     },
     {
@@ -742,6 +742,7 @@
       },
       "styles": [
         {
+          "$$hashKey": "object:1615",
           "alias": "Time",
           "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
@@ -749,6 +750,7 @@
           "type": "hidden"
         },
         {
+          "$$hashKey": "object:1616",
           "alias": "Confirmed",
           "align": "auto",
           "colorMode": "value",
@@ -769,6 +771,7 @@
           "unit": "short"
         },
         {
+          "$$hashKey": "object:1617",
           "alias": "",
           "align": "auto",
           "colorMode": null,
@@ -780,7 +783,7 @@
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "link": true,
-          "linkTooltip": "View ${__cell}} dashboard",
+          "linkTooltip": "View ${__cell} dashboard",
           "linkUrl": "/d/vLGPaH9Zk/status-by-country?orgId=1&var-country_name=${__cell}",
           "mappingType": 1,
           "pattern": "Country",
@@ -790,6 +793,7 @@
           "unit": "short"
         },
         {
+          "$$hashKey": "object:1618",
           "alias": "",
           "align": "right",
           "colorMode": "value",

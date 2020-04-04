@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1585958914466,
+  "iteration": 1585977256040,
   "links": [],
   "panels": [
     {
@@ -29,7 +29,7 @@
       "fill": 4,
       "fillGradient": 0,
       "gridPos": {
-        "h": 16,
+        "h": 19,
         "w": 16,
         "x": 0,
         "y": 0
@@ -245,23 +245,26 @@
       }
     },
     {
-      "datasource": "InfluxDB",
+      "cacheTimeout": null,
+      "datasource": null,
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 4,
         "x": 16,
         "y": 0
       },
-      "id": 4,
+      "id": 14,
+      "links": [],
       "options": {
         "colorMode": "value",
         "fieldOptions": {
           "calcs": [
-            "mean"
+            "max"
           ],
           "defaults": {
             "decimals": 3,
             "mappings": [],
+            "nullValueMode": "connected",
             "thresholds": {
               "mode": "absolute",
               "steps": [
@@ -271,7 +274,7 @@
                 },
                 {
                   "color": "red",
-                  "value": 5000
+                  "value": 80
                 }
               ]
             },
@@ -281,17 +284,16 @@
           "values": false
         },
         "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto"
+        "justifyMode": "center",
+        "orientation": "horizontal"
       },
       "pluginVersion": "6.7.1",
       "targets": [
         {
-          "alias": "",
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "24h"
               ],
               "type": "time"
             },
@@ -305,8 +307,6 @@
           "measurement": "ByCountry",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT max(\"Confirmed\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter ",
-          "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -319,7 +319,7 @@
               },
               {
                 "params": [],
-                "type": "max"
+                "type": "mean"
               }
             ]
           ],
@@ -334,11 +334,14 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Confirmed",
+      "title": "Confirmed Cases",
       "type": "stat"
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "Deaths": "#C4162A",
+        "Recovered": "#37872D"
+      },
       "breakPoint": "50%",
       "cacheTimeout": null,
       "combine": {
@@ -351,7 +354,7 @@
       "fontSize": "80%",
       "format": "short",
       "gridPos": {
-        "h": 6,
+        "h": 9,
         "w": 4,
         "x": 20,
         "y": 0
@@ -473,10 +476,10 @@
       "cacheTimeout": null,
       "datasource": "InfluxDB",
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 4,
         "x": 16,
-        "y": 2
+        "y": 3
       },
       "id": 6,
       "links": [],
@@ -484,11 +487,12 @@
         "colorMode": "value",
         "fieldOptions": {
           "calcs": [
-            "mean"
+            "max"
           ],
           "defaults": {
             "mappings": [
               {
+                "$$hashKey": "object:1477",
                 "id": 0,
                 "op": "=",
                 "text": "N/A",
@@ -503,10 +507,6 @@
                 {
                   "color": "green",
                   "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
                 }
               ]
             },
@@ -540,7 +540,7 @@
           "measurement": "ByCountry",
           "orderByTime": "ASC",
           "policy": "autogen",
-          "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter",
+          "query": "SELECT max(\"Recovered\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter GROUP By time(24h)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -571,17 +571,17 @@
     {
       "datasource": "InfluxDB",
       "gridPos": {
-        "h": 2,
+        "h": 3,
         "w": 4,
         "x": 16,
-        "y": 4
+        "y": 6
       },
       "id": 8,
       "options": {
         "colorMode": "value",
         "fieldOptions": {
           "calcs": [
-            "mean"
+            "max"
           ],
           "defaults": {
             "mappings": [],
@@ -589,12 +589,8 @@
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "red",
+                  "color": "dark-red",
                   "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
                 }
               ]
             }
@@ -626,7 +622,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter",
+          "query": "SELECT max(\"Deaths\") FROM \"autogen\".\"ByCountry\" WHERE (\"Country\" =~ /^$country_name$/) AND $timeFilter GROUP BY  time(24h)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -664,7 +660,7 @@
         "h": 10,
         "w": 8,
         "x": 16,
-        "y": 6
+        "y": 9
       },
       "hiddenSeries": false,
       "id": 10,
@@ -892,9 +888,9 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
-          "text": "Netherlands",
-          "value": "Netherlands"
+          "selected": true,
+          "text": "US",
+          "value": "US"
         },
         "datasource": "InfluxDB",
         "definition": "SELECT distinct(\"Country\")  FROM \"covid19\".\"autogen\".\"ByCountry\"",
@@ -942,5 +938,5 @@
   "variables": {
     "list": []
   },
-  "version": 2
+  "version": 4
 }
