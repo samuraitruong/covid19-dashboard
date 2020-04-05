@@ -380,7 +380,10 @@
       "type": "stat"
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "Deaths": "#E02F44",
+        "Recovered": "#37872D"
+      },
       "breakPoint": "50%",
       "cacheTimeout": null,
       "combine": {
@@ -598,7 +601,10 @@
       "type": "stat"
     },
     {
-      "aliasColors": {},
+      "aliasColors": {
+        "Active": "#FFB357",
+        "Serious": "#E02F44"
+      },
       "breakPoint": "50%",
       "cacheTimeout": null,
       "combine": {
