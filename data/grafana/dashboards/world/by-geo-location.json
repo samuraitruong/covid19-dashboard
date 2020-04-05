@@ -818,7 +818,7 @@
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "24"
               ],
               "type": "time"
             },
@@ -829,9 +829,10 @@
               "type": "fill"
             }
           ],
+          "measurement": "coronavirus-cases-linear",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT max(Confirmed) as Count FROM \"autogen\".\"Cases\" WHERE  $timeFilter GROUP BY Country",
+          "query": "SELECT max(\"Value\") as Count FROM \"coronavirus-cases-linear\" WHERE $timeFilter AND (Country != 'Global' AND Country != '') GROUP BY Country",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "table",
@@ -839,13 +840,13 @@
             [
               {
                 "params": [
-                  "value"
+                  "Value"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "max"
               }
             ]
           ],
