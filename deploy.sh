@@ -4,9 +4,9 @@ set -e
 # backup data
 rm -rf /tmp/backup || true
 
-# cp -R /home/covid19-dashboard/data /tmp/backup
+cp -R /home/covid19-dashboard/data /tmp/backup
 cd /home/covid19-dashboard
-rm -rf data/elasticsearch/data || true
+# rm -rf data/elasticsearch/data || true
 chmod -R 777 ./data
 ls
 git status
