@@ -11,80 +11,34 @@ const wikiDataSource = async () => {
   );
   const $ = cheerio.load(data);
   const tables = $(".wikitable").toArray();
-  $(tables[1])
+  $(tables[0])
     .find("sup")
     .toArray()
-    .forEach(x => {
+    .forEach((x) => {
       $(x).remove();
     });
-  const rows = $("tbody tr", tables[1]).toArray();
+  const rows = $("tbody tr", tables[0]).toArray();
   const headers = $("th", rows[0])
     .toArray()
-    .map(th => {
-      return $(th)
-        .text()
-        .trim();
+    .map((th) => {
+      return $(th).text().trim();
     });
 
-  const results = rows.slice(1).map(tr => {
+  const results = rows.slice(1, rows.length - 2).map((tr) => {
     const tds = $("td", tr).toArray();
     const item = {
-      Date: $(tds[0])
-        .text()
-        .trim(),
-      NSW: util.toNumber(
-        $(tds[1])
-          .text()
-          .trim()
-      ),
-      QLD: util.toNumber(
-        $(tds[2])
-          .text()
-          .trim()
-      ),
-      VIC: util.toNumber(
-        $(tds[3])
-          .text()
-          .trim()
-      ),
-      SA: util.toNumber(
-        $(tds[4])
-          .text()
-          .trim()
-      ),
-      WA: util.toNumber(
-        $(tds[5])
-          .text()
-          .trim()
-      ),
-      TAS: util.toNumber(
-        $(tds[6])
-          .text()
-          .trim()
-      ),
-      ACT: util.toNumber(
-        $(tds[7])
-          .text()
-          .trim()
-      ),
-      NT: util.toNumber(
-        $(tds[8])
-          .text()
-          .trim()
-      ),
-      Total: util.toNumber(
-        $(tds[9])
-          .text()
-          .trim()
-      ),
-      NewCases: util.toNumber(
-        $(tds[10])
-          .text()
-          .trim()
-      ),
-      Growth: $(tds[11])
-        .text()
-        .trim()
+      Date: $(tds[0]).text().trim(),
+      NSW: util.toNumber($(tds[1]).text().trim()),
+      QLD: util.toNumber($(tds[2]).text().trim()),
+      VIC: util.toNumber($(tds[3]).text().trim()),
+      SA: util.toNumber($(tds[4]).text().trim()),
+      WA: util.toNumber($(tds[5]).text().trim()),
+      TAS: util.toNumber($(tds[6]).text().trim()),
+      ACT: util.toNumber($(tds[7]).text().trim()),
+      NT: util.toNumber($(tds[8]).text().trim()),
+      Total: util.toNumber($(tds[9]).text().trim()),
+      NewCases: util.toNumber($(tds[10]).text().trim()),
+      Growth: $(tds[11]).text().trim(),
     };
 
     return item;
@@ -101,25 +55,19 @@ const nswDataSource = async () => {
   const timestamp = util.momentToTimestamp(moment(headers["Last-Modified"]));
 
   const trs = $(".health-table__responsive tr").toArray();
-  const states = trs.splice(1, trs.length - 4).map(tr => {
+  const states = trs.splice(1, trs.length - 4).map((tr) => {
     const td = $("td", tr).toArray();
     return {
-      State: $(td[0])
-        .text()
-        .trim(),
-      Confirmed: util.toNumber(
-        $(td[1])
-          .text()
-          .trim()
-      )
+      State: $(td[0]).text().trim(),
+      Confirmed: util.toNumber($(td[1]).text().trim()),
     };
   });
   return {
     states,
-    timestamp
+    timestamp,
   };
 };
-const normalizeData = data => {
+const normalizeData = (data) => {
   const list = [];
   const stateMappings = {
     VIC: "Victoria",
@@ -129,20 +77,20 @@ const normalizeData = data => {
     TAS: "Tasmania",
     WA: "Western Australia",
     ACT: "Australian Capital Territory",
-    SA: "South Australia"
+    SA: "South Australia",
   };
 
   const getItem = (item, state) => {
     return {
       Date: item.Date || item.index,
       State: stateMappings[state] || "na",
-      Confirmed: item[state]
+      Confirmed: item[state],
     };
   };
-  data.forEach(element => {
+  data.forEach((element) => {
     Object.keys(element)
       .slice(1)
-      .forEach(state => {
+      .forEach((state) => {
         if (state.match(/Total|Growth|Date/)) return;
         list.push(getItem(element, state));
       });
@@ -151,35 +99,37 @@ const normalizeData = data => {
 };
 const writeDataToClient = async (client, data, measurement, timestamp) => {
   logger.info("Writing Australia data to InfluxDB :%s", measurement, {
-    measurement
+    measurement,
   });
-  const points = data.filter(x =>x.Date).map(x => {
-    const newTs =
-      timestamp ||
-      util.momentToTimestamp(
-        moment(x.Date, ["DD MMMM", "DD MMM YYYY", "YYYY-MM-DD"])
-      );
+  const points = data
+    .filter((x) => x.Date)
+    .map((x) => {
+      const newTs =
+        timestamp ||
+        util.momentToTimestamp(
+          moment(x.Date, ["DD MMMM", "DD MMM YYYY", "YYYY-MM-DD"])
+        );
 
-    return {
-      measurement: measurement || australiaMeasurement,
-      tags: {
-        Country: "Australia",
-        CountryCode: "AU",
-        State: x.State
-      },
-      fields: {
-        ...x
-      },
-      timestamp: newTs
-    };
-  });
+      return {
+        measurement: measurement || australiaMeasurement,
+        tags: {
+          Country: "Australia",
+          CountryCode: "AU",
+          State: x.State,
+        },
+        fields: {
+          ...x,
+        },
+        timestamp: newTs,
+      };
+    });
   try {
     await client.writePoints(points);
     logger.info(
       "AustraliaHealth Job write measurement successful: %s",
       measurement,
       {
-        measurement
+        measurement,
       }
     );
   } catch (err) {
@@ -189,7 +139,7 @@ const writeDataToClient = async (client, data, measurement, timestamp) => {
       {
         errorMessage: err.message,
         errorStack: err.stack,
-        measurement
+        measurement,
       }
     );
   }
@@ -205,10 +155,10 @@ const getDataFromGuadian = async () => {
   );
   return {
     total: normalizeData(data.sheets.data),
-    daily: normalizeData(res.data.sheets.data)
+    daily: normalizeData(res.data.sheets.data),
   };
 };
-const australiaJob = async client => {
+const australiaJob = async (client) => {
   try {
     logger.info("Australia Job started");
     const wikiData = await wikiDataSource();
@@ -246,7 +196,7 @@ const australiaJob = async client => {
   } catch (err) {
     logger.error("AustraliaJob error %j", err.message || err, {
       errorMessage: err.message,
-      errorStack: err.stack
+      errorStack: err.stack,
     });
   }
 };
