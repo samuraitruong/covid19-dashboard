@@ -47,7 +47,7 @@ const writeToInfluxDB = async (client, data, measurement) => {
   });
   try {
     await client.writePoints(points);
-    logger.info("CSSEGISandDataJob FINISHED ...", measurement);
+    logger.info("ecdc data update  FINISHED ...", {measurement});
   } catch (err) {
     logger.error("Error writing to influxDB %j", err.message || err);
   }

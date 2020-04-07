@@ -30,7 +30,7 @@ const parseCSV = async (csvData) => {
   });
 }
 const writeToInfluxDB = async (client, data, measurement) => {
-  logger.info("Writing ecdc data to InfluxDB", measurement)
+  logger.info("Writing NYtimes data to InfluxDB", {measurement})
   const points = data.map(x => {
     const ts = util.momentToTimestamp(moment(x.Date, "YYYY-MM-DD"));
     return {
