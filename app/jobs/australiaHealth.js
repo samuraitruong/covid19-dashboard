@@ -101,7 +101,7 @@ const nswDataSource = async () => {
   const timestamp = util.momentToTimestamp(moment(headers["Last-Modified"]));
 
   const trs = $(".health-table__responsive tr").toArray();
-  const states = trs.splice(1, trs.length - 3).map(tr => {
+  const states = trs.splice(1, trs.length - 4).map(tr => {
     const td = $("td", tr).toArray();
     return {
       State: $(td[0])

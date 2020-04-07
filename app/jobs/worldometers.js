@@ -26,7 +26,7 @@ const extractChartData = (html) => {
 const getData = async () => {
   const res = await axios.get("https://www.worldometers.info/coronavirus");
   const timestamp = util.momentToTimestamp(moment(res.headers["date"]));
-  logger.info("wordometer last update at %s", res.headers["date"]);
+  // logger.info("wordometer last update at %s", res.headers["date"]);
   const $ = cheerio.load(res.data);
   const summary = extractChartData(res.data);
   const rows = $("#main_table_countries_today tbody tr").toArray();
