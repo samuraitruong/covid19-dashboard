@@ -54,14 +54,22 @@ const getData = async () => {
   });
   return {
     ref,
-    data: data.filter((x) => x.Country !== "Total:"),
+    data: data.filter((x) => x.Country !== "Total:" && x.Country != ""),
     summary,
     timestamp,
+    tables: extractTableData($),
   };
+};
+const mapColName = (title) => {
+  if (!title) return "notitle";
+  const mappings = {
+    "Country,Other": "Country",
+  };
+  return mappings[title] || title.replace(/[^a-zA-Z]/gi, "");
 };
 const extractTableData = ($) => {
   const tables = $("table").toArray();
-  return tables.map((table) => {
+  const dataList = tables.map((table) => {
     const headers = $(table)
       .find("thead th")
       .toArray()
@@ -72,12 +80,11 @@ const extractTableData = ($) => {
       .toArray()
       .map((r) => {
         const tds = $("td", r);
-        const row = {
-          state: $(tds[0]).text().trim(),
-        };
+        const row = {};
         headers.forEach((header, index) => {
-          row[header] = util.toNumber($(tds[index]).text());
+          row[mapColName(header)] = util.toNumber($(tds[index]).text());
         });
+        row[mapColName(headers[0])] = $(tds[0]).text().trim();
         return row;
       });
     return {
@@ -86,6 +93,7 @@ const extractTableData = ($) => {
       id: $(table).attr("id"),
     };
   });
+  return dataList.filter((x) => x.id && x.headers.length > 0);
 };
 const getDataFromUrl = async (url, country) => {
   const res = await axios.get(url);
@@ -123,7 +131,9 @@ const writeDataToClient = async (client, data, measurement, timestamp) => {
     await client.writePoints(points);
     logger.info("worldometer FINISHED ... %s", measurement);
   } catch (err) {
-    logger.error("worldometer Error writing to influxDB  %j", err);
+    logger.error("worldometer Error writing to influxDB", {
+      errorStack: err.stack,
+    });
   }
 };
 
@@ -207,6 +217,7 @@ const writeChartData = async (client, charts, country) => {
 const writeTableData = async (client, tables, country, timestamp) => {
   country = country || "Global";
   for (const table of tables) {
+    await client.dropMeasurement(table.id);
     logger.info(
       "writing summary worldometer table data : %s %s %j",
       table.id,
@@ -215,11 +226,14 @@ const writeTableData = async (client, tables, country, timestamp) => {
     );
     const points = [];
     table.data.forEach((item) => {
+      let thisCountry = item.Country || country;
+      thisCountry = thisCountry === "USA" ? "US" : thisCountry;
+      item.Country = thisCountry;
       points.push({
         measurement: table.id,
         tags: {
-          Country: country,
-          State: item.state,
+          Country: thisCountry,
+          State: item.State,
         },
         fields: {
           ...item,
@@ -231,16 +245,20 @@ const writeTableData = async (client, tables, country, timestamp) => {
       // await client.dropMeasurement(item.key);
       await client.writePoints(points);
       logger.info(
-        "worldometer successful write data ... %s %s",
-        item.key,
+        "worldometer successful write table data ... %s %s",
+        table.id,
         country
       );
     } catch (err) {
       console.error(
-        "worldometer Error writing rank data to influxDB  %j %d %s",
+        "worldometer Error writing table data to influxDB  %j %d %s",
         err.message || err,
         country,
-        table.key
+        table.id,
+        {
+          err: err,
+          errorStack: err.stack,
+        }
       );
     }
   }
@@ -250,6 +268,12 @@ const worldometerJob = async (client) => {
   try {
     logger.info("worldometerJob running...");
     const lastestData = await getData();
+    await writeTableData(
+      client,
+      lastestData.tables,
+      null,
+      lastestData.timestamp
+    );
     await writeDataToClient(
       client,
       lastestData.data,
@@ -291,7 +315,11 @@ const worldometerJob = async (client) => {
     await writeRank(client, sorted);
     logger.info("worldometerJob finished");
   } catch (err) {
-    logger.error("worldometerJob error %j", err);
+    console.log(err);
+    logger.error("worldometerJob error %j", err, {
+      errorStack: err.stack,
+      errorMessage: err.message,
+    });
   }
 };
 module.exports = worldometerJob;
