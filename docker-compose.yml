@@ -87,7 +87,7 @@ services:
       - run
       - dev
     environment:
-      SCHEDULE_CRON: "*/15 * * * *"
+      SCHEDULE_CRON: "0 * * * *"
       INFLUXDB_HOST: "influxdb"
       ELASTICSEARCH_URL: "http://elasticsearch:9200"
       MAPQUEST_KEY: "${MAPQUEST_KEY}"
