@@ -19,7 +19,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^7.6.1",
     "@influxdata/influxdb-client": "^1.1.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.3",
     "country-code-lookup": "0.0.17",
     "cron": "^1.8.2",
