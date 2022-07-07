@@ -29,7 +29,7 @@
     "dotenv": "^8.2.0",
     "influx": "^5.5.1",
     "latlon-geohash": "^2.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngeohash": "^0.6.3",
     "winston": "^3.2.1",
     "winston-elasticsearch": "^0.8.5",
